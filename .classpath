@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/jogamp-fat.jar"/>
+	<classpathentry kind="lib" path="/Users/pulkit/Desktop/jogamp-all-platforms/jar/atomic/jogl-awt.jar"/>
+	<classpathentry kind="lib" path="/Users/pulkit/Desktop/jogamp-all-platforms/jar/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="/Users/pulkit/Desktop/jogamp-all-platforms/jar/jogl-all.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
