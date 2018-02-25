@@ -25,6 +25,8 @@ public class JavaTemplate {
     // The current frame's keyboard state.
     private static boolean kbState[] = new boolean[256];
 
+	
+	
     // Position of the sprite.
     private static int[] spritePos = new int[] { 0, 440 };    
     
@@ -32,6 +34,12 @@ public class JavaTemplate {
 
     // Texture for the sprite.
     private static int cloud;
+    private static int power;
+    private static int tree;
+    private static int tree1;
+    private static int tile;
+    private static int bush;
+    private static int bush1;
     private static int cloud2;
     private static int platform;
     private static int sky;
@@ -48,6 +56,8 @@ public class JavaTemplate {
     
 
     public static void main(String[] args) {
+  
+    	
         GLProfile gl2Profile;
         try {
             // Make sure we have a recent version of OpenGL
@@ -63,7 +73,7 @@ public class JavaTemplate {
         GLWindow window = GLWindow.create(new GLCapabilities(gl2Profile));
         // OSX doubles the windows size 
         window.setSize(800/2, 600/2);
-        window.setTitle("Game");
+        window.setTitle("Mario 5");
         window.setVisible(true);
         window.setDefaultCloseOperation(
                 WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);
@@ -101,12 +111,17 @@ public class JavaTemplate {
 		//Initializing backgrounds
         
 		sky = glTexImageTGAFile(gl, "backgroundImages/sky.tga",tileSize);
+		power = glTexImageTGAFile(gl, "backgroundImages/power.tga",tileSize);
+		bush = glTexImageTGAFile(gl, "backgroundImages/bush.tga",tileSize);
+		bush1 = glTexImageTGAFile(gl, "backgroundImages/bush1.tga",tileSize);
+		tree = glTexImageTGAFile(gl, "backgroundImages/tree.tga",tileSize);
+		tree1 = glTexImageTGAFile(gl, "backgroundImages/tree1.tga",tileSize);
+		tile = glTexImageTGAFile(gl, "backgroundImages/tile.tga",tileSize);
 		platform = glTexImageTGAFile(gl, "backgroundImages/platform.tga",tileSize);
 		cloud = glTexImageTGAFile(gl, "backgroundImages/cloud.tga",tileSize);
 		cloud2 = glTexImageTGAFile(gl, "backgroundImages/cloud2.tga",tileSize);
 		backgroundDef = new BackgroundDef();	
-		
-		int[] tilearray = new int[backgroundDef.getTileSize()];
+	  	int[] tilearray = new int[backgroundDef.getTileSize()];
 		
 		for(int i=0; i< backgroundDef.getWidth(); i++) {
 			for (int j=0; j< backgroundDef.getHeight(); j++) {
@@ -118,36 +133,48 @@ public class JavaTemplate {
 					tilearray[j*backgroundDef.getWidth() + i] = cloud;
 				}else if (backgroundDef.getTile(i, j) == 3 ){
 					tilearray[j*backgroundDef.getWidth() + i] = cloud2;
+				}else if (backgroundDef.getTile(i, j) == 4 ){
+					tilearray[j*backgroundDef.getWidth() + i] = power;
+				}
+				else if (backgroundDef.getTile(i, j) == 5 ){
+					tilearray[j*backgroundDef.getWidth() + i] = tile;
+				}else if (backgroundDef.getTile(i, j) == 6 ){
+					tilearray[j*backgroundDef.getWidth() + i] = tree;
+				}else if (backgroundDef.getTile(i, j) == 7 ){
+					tilearray[j*backgroundDef.getWidth() + i] = tree1;
+				}else if (backgroundDef.getTile(i, j) == 8 ){
+					tilearray[j*backgroundDef.getWidth() + i] = bush;
+				}else if (backgroundDef.getTile(i, j) == 9 ){
+					tilearray[j*backgroundDef.getWidth() + i] = bush1;
 				}
 			}
 		}
 
 		FrameDef[] idle = {
 				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), (float) 600),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/idle1.tga", spriteSize), (float) 600),
+				
 				};
       
 		FrameDef[] moveleft = {
-				new FrameDef(glTexImageTGAFile(gl, "Animations/left1.tga", spriteSize), (float) 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/left.tga", spriteSize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "Animations/left2.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/left3.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/left4.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/left5.tga", spriteSize), (float) 100)
+				new FrameDef(glTexImageTGAFile(gl, "Animations/left3.tga", spriteSize), (float) 100)
 				};
 		FrameDef[] moveright = {
-				new FrameDef(glTexImageTGAFile(gl, "Animations/right1.tga", spriteSize), (float) 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/right.tga", spriteSize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "Animations/right2.tga", spriteSize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "Animations/right3.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/right4.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/right5.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/right6.tga", spriteSize), (float) 100)
+				new FrameDef(glTexImageTGAFile(gl, "Animations/right4.tga", spriteSize), (float) 100)
+				
 				};
 
    		AnimationDef idleanimation = new AnimationDef(idle);  
     		AnimationDef leftanimation = new AnimationDef(moveleft);  
     		AnimationDef rightanimation = new AnimationDef(moveright); 
     	
-		
+    		//Camera Initialization
+    		Camera camera = new Camera(0,0);
+   		
         // The game loop
         long lastFrameNS;
          
@@ -177,6 +204,11 @@ public class JavaTemplate {
                 		spritePos[1] -= (deltaTimeMS /16) *3 ;  // update the position when sprite moves
                 		rightanimation.updateSprite(deltaTimeMS);
                 		currFrame = rightanimation.getCurrentFrame();
+                		//Intelligent Camera
+                		int y = spritePos[1] - camera.getY();
+                		if(camera.getY() > 0) {
+                			camera.setY(camera.getY() -3);
+                		}
                 		} 
                 
                 // Down Key
@@ -184,24 +216,76 @@ public class JavaTemplate {
 	                	spritePos[1] += (deltaTimeMS /16) *3;             	
 	                	leftanimation.updateSprite(deltaTimeMS);
                 		currFrame = leftanimation.getCurrentFrame();
+                		
+                		//Intelligent Camera
+                		int y = spritePos[1] - camera.getY();
+                		if(camera.getY() < 599) {
+                			camera.setY(camera.getY() +3);
+                		}
+                		
                 }
                 //Left Key
                 else if(kbState[KeyEvent.VK_LEFT] && spritePos[0] > 0){ 
                 		spritePos[0] -= (deltaTimeMS /16) *3; 
                 		leftanimation.updateSprite(deltaTimeMS);
                 		currFrame = leftanimation.getCurrentFrame();
+                		//Intelligent Camera
+                		int x = spritePos[0] - camera.getX();
+                		if(camera.getX() > 0 && x<50) {
+                			camera.setX(camera.getX() -3);
+                		}
                 }
                 //right Key
                 else if(kbState[KeyEvent.VK_RIGHT] && spritePos[0] <= (799- spriteSize[0])){
                 		spritePos[0] +=  (deltaTimeMS /16) *3;
                 		rightanimation.updateSprite(deltaTimeMS);
                 		currFrame = rightanimation.getCurrentFrame();
+                		//Intelligent Camera
+                		int x = spritePos[0] - camera.getX();
+                		if(camera.getX() < 799 && x<50) {
+                			camera.setX(camera.getX() +3);
+                		}
                 		
                 } else {
                 		idleanimation.updateSprite(deltaTimeMS);
                 		currFrame = idleanimation.getCurrentFrame();
                 }
                 
+                //Camera Controls
+                
+                //UP
+			if (kbState[KeyEvent.VK_W]) {
+				if (camera.getY() - 3 < 0 ) {
+					camera.setY(camera.getY());
+				} else {
+					camera.setY(camera.getY() - 3);
+				}
+			}
+			//LEft
+			if (kbState[KeyEvent.VK_A]) {
+				if (camera.getX() - 3 < 0) {
+					camera.setX(camera.getX());
+				} else {
+					camera.setX(camera.getX() - 3);
+				}
+			}
+			//Down
+			if (kbState[KeyEvent.VK_S]) {
+				if (camera.getY() + 3 > 599 ) {
+					camera.setY(camera.getY());
+				} else {
+					camera.setY(camera.getY() + 3);
+				}
+			}
+			//Right
+			if (kbState[KeyEvent.VK_D]) {
+				if (camera.getX() + 3 > 799) {
+					camera.setX(camera.getX());
+				} else {
+					camera.setX(camera.getX() + 3);
+				}
+			}
+ 
                       
             gl.glClearColor(0, 0, 0, 1);
             gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
@@ -209,8 +293,8 @@ public class JavaTemplate {
 
             for(int i=0; i<backgroundDef.getWidth(); i++) {
             	for(int j=0; j<backgroundDef.getHeight(); j++) {
-            			glDrawSprite(gl, tilearray[j * 20 + i],i * tileSize[0],
-            					j * tileSize[1], tileSize[0], tileSize[1]);
+            			glDrawSprite(gl, tilearray[j * backgroundDef.getWidth() + i],i * tileSize[0] - camera.getX(),
+            					j * tileSize[1] - camera.getY(), tileSize[0], tileSize[1]);
             		} 
             }
             // Draw the sprite
