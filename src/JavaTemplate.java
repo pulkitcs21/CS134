@@ -8,7 +8,6 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLException;
 import com.jogamp.opengl.GLProfile;
-
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -25,11 +24,11 @@ public class JavaTemplate {
     // The current frame's keyboard state.
     private static boolean kbState[] = new boolean[256];
 
-	
-	
     // Position of the sprite.
-    private static int[] spritePos = new int[] { 0, 440 };    
-    
+    private static float[] spritePos = new float[] { 0, 515 };    
+
+    private static float[] enemyPos = new float[] { 400, 515 };
+    private static float[] bulletPos = new float[] { spritePos[0] +5, spritePos[1] };
 	private static int currFrame;
 
     // Texture for the sprite.
@@ -43,17 +42,19 @@ public class JavaTemplate {
     private static int cloud2;
     private static int platform;
     private static int sky;
-    
+    private static int enemytex;
+    private static int enemytex2;
+    private static int bullettex;
+
     // Size of the sprite.
     private static int[] spriteSize = new int[2];
-    
+    private static int[] enemySize = new int[2];
+    private static int[]	bulletSize = new int[2];
     // Size of the tile
     private static int[] tileSize = new int[2];
     
     //Making Background declarations
     private static BackgroundDef backgroundDef;
-
-    
 
     public static void main(String[] args) {
   
@@ -120,9 +121,19 @@ public class JavaTemplate {
 		platform = glTexImageTGAFile(gl, "backgroundImages/platform.tga",tileSize);
 		cloud = glTexImageTGAFile(gl, "backgroundImages/cloud.tga",tileSize);
 		cloud2 = glTexImageTGAFile(gl, "backgroundImages/cloud2.tga",tileSize);
+		
+		// Enemy Texture
+		enemytex =glTexImageTGAFile(gl, "enemy/enemy1.tga",enemySize);
+		enemytex2 =glTexImageTGAFile(gl, "enemy/enemy2.tga",enemySize);
+		
+		// Bullet Texture
+		bullettex = glTexImageTGAFile(gl, "bullet/fire.tga",bulletSize);
+		
 		backgroundDef = new BackgroundDef();	
+      
 	  	int[] tilearray = new int[backgroundDef.getTileSize()];
 		
+	  	
 		for(int i=0; i< backgroundDef.getWidth(); i++) {
 			for (int j=0; j< backgroundDef.getHeight(); j++) {
 				if (backgroundDef.getTile(i, j) == 0 ){
@@ -174,21 +185,57 @@ public class JavaTemplate {
     	
     		//Camera Initialization
     		Camera camera = new Camera(0,0);
+    		
+    		ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+    		enemies.add(new Enemy(enemyPos[0],enemyPos[1],enemySize[0],enemySize[1],enemytex, 100));
+    		
+    		// Bullets ArrayList
+    		ArrayList<Bullet> bullets = new ArrayList<Bullet>();
    		
         // The game loop
+        int physicsDeltaTime = 10;
+        int physicsFrameMS = (int) (System.nanoTime() / 1000000);
         long lastFrameNS;
          
+        float playerspeed = 3.0f/16;
 		
         long curFrameNS = System.nanoTime();
        
+        
+        
         while (!shouldExit) {
             System.arraycopy(kbState, 0, kbPrevState, 0, kbState.length);
             lastFrameNS = curFrameNS;
             curFrameNS = System.nanoTime();
+            long currFrameMS = curFrameNS/ 1000000;
             long deltaTimeMS = (curFrameNS - lastFrameNS) / 1000000;          
             // Actually, this runs the entire OS message pump.
             window.display();
-      
+            
+            //physics loop  
+            do {
+            		for(int i=0; i<bullets.size(); i++) {
+            			Bullet b = bullets.get(i);
+            			b.setX(b.getX() + 5);
+            			for(int j=0; j< enemies.size(); j++) {
+            				Enemy e = enemies.get(j);
+            				AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(),e.getWidth(),e.getHeight());
+            				AABBCamera bulletAABB= new AABBCamera(b.getX(), b.getY(),b.getWidth(),b.getHeight());
+            				if(AABBIntersect(enemyAABB, bulletAABB)) {
+            					bullets.remove(i);
+            					i--;
+            					e.setHitpoints(e.getHitpoints() - 50);
+            					if(e.getHitpoints() <=0) {
+            						enemies.remove(j);
+            						j--;
+            					}
+            				}
+            			}
+            		}
+            	
+            	
+            		physicsFrameMS += physicsDeltaTime;
+            }while(physicsFrameMS + physicsDeltaTime < currFrameMS);
             
             if (!window.isVisible()) {
                 shouldExit = true;
@@ -198,52 +245,58 @@ public class JavaTemplate {
             // Game logic goes here.
             if (kbState[KeyEvent.VK_ESCAPE]) {
                 shouldExit   = true;
-            }       
+            }    
+            	
+            //Bullet Press
+            	if(kbState[KeyEvent.VK_SPACE] && !kbPrevState[KeyEvent.VK_SPACE]) {
+            		bullets.add(new Bullet(spritePos[0] +100,spritePos[1],bulletSize[0],bulletSize[1],bullettex));
+            	}
+            
                 //up
                 if(kbState[KeyEvent.VK_UP] && (spritePos[1] >0)) {
-                		spritePos[1] -= (deltaTimeMS /16) *3 ;  // update the position when sprite moves
+                		spritePos[1] -= deltaTimeMS * playerspeed; 
+                		// update the position when sprite moves
                 		rightanimation.updateSprite(deltaTimeMS);
                 		currFrame = rightanimation.getCurrentFrame();
                 		//Intelligent Camera
-                		int y = spritePos[1] - camera.getY();
+                		float y = spritePos[1] - camera.getY();
                 		if(camera.getY() > 0) {
-                			camera.setY(camera.getY() -3);
+                			camera.setY(camera.getY() - 3);
                 		}
-                		} 
-                
+                	} 
+             
                 // Down Key
-                else if(kbState[KeyEvent.VK_DOWN] && spritePos[1] <= (599- spriteSize[1])){
-	                	spritePos[1] += (deltaTimeMS /16) *3;             	
+                else if(kbState[KeyEvent.VK_DOWN] && spritePos[1] <= ((backgroundDef.getWidth() * 30) - spriteSize[1])){
+	                	spritePos[1] += deltaTimeMS * playerspeed;             	
 	                	leftanimation.updateSprite(deltaTimeMS);
-                		currFrame = leftanimation.getCurrentFrame();
-                		
+                		currFrame = leftanimation.getCurrentFrame();      		
                 		//Intelligent Camera
-                		int y = spritePos[1] - camera.getY();
+                		float y = spritePos[1] - camera.getY();
                 		if(camera.getY() < 599) {
-                			camera.setY(camera.getY() +3);
-                		}
+                			camera.setY(camera.getY() + 3);
+              		}
                 		
                 }
                 //Left Key
                 else if(kbState[KeyEvent.VK_LEFT] && spritePos[0] > 0){ 
-                		spritePos[0] -= (deltaTimeMS /16) *3; 
+                		spritePos[0] -= deltaTimeMS * playerspeed; 
                 		leftanimation.updateSprite(deltaTimeMS);
                 		currFrame = leftanimation.getCurrentFrame();
                 		//Intelligent Camera
-                		int x = spritePos[0] - camera.getX();
+                		float x = spritePos[0] - camera.getX();
                 		if(camera.getX() > 0 && x<50) {
-                			camera.setX(camera.getX() -3);
+                			camera.setX(camera.getX() - 3);
                 		}
                 }
                 //right Key
-                else if(kbState[KeyEvent.VK_RIGHT] && spritePos[0] <= (799- spriteSize[0])){
-                		spritePos[0] +=  (deltaTimeMS /16) *3;
+                else if(kbState[KeyEvent.VK_RIGHT] && spritePos[0] <= ((backgroundDef.getHeight()*backgroundDef.getWidth())- spriteSize[0])){
+                		spritePos[0] +=  deltaTimeMS * playerspeed;
                 		rightanimation.updateSprite(deltaTimeMS);
                 		currFrame = rightanimation.getCurrentFrame();
                 		//Intelligent Camera
-                		int x = spritePos[0] - camera.getX();
+                		float x = spritePos[0] - camera.getX();
                 		if(camera.getX() < 799 && x<50) {
-                			camera.setX(camera.getX() +3);
+                			camera.setX(camera.getX() + 3);
                 		}
                 		
                 } else {
@@ -258,7 +311,7 @@ public class JavaTemplate {
 				if (camera.getY() - 3 < 0 ) {
 					camera.setY(camera.getY());
 				} else {
-					camera.setY(camera.getY() - 3);
+					camera.setY(camera.getY() - 3.0f);
 				}
 			}
 			//LEft
@@ -266,7 +319,7 @@ public class JavaTemplate {
 				if (camera.getX() - 3 < 0) {
 					camera.setX(camera.getX());
 				} else {
-					camera.setX(camera.getX() - 3);
+					camera.setX(camera.getX() - 3.0f);
 				}
 			}
 			//Down
@@ -274,37 +327,83 @@ public class JavaTemplate {
 				if (camera.getY() + 3 > 599 ) {
 					camera.setY(camera.getY());
 				} else {
-					camera.setY(camera.getY() + 3);
+					camera.setY(camera.getY() + 3.0f);
 				}
 			}
+			
+	
 			//Right
 			if (kbState[KeyEvent.VK_D]) {
 				if (camera.getX() + 3 > 799) {
 					camera.setX(camera.getX());
 				} else {
-					camera.setX(camera.getX() + 3);
+					camera.setX(camera.getX() + 3.0f);
 				}
 			}
- 
-                      
+			
             gl.glClearColor(0, 0, 0, 1);
             gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
             
-
-            for(int i=0; i<backgroundDef.getWidth(); i++) {
-            	for(int j=0; j<backgroundDef.getHeight(); j++) {
+            int startIndex = (int) (camera.getX() / tileSize[0]);
+            int endIndex = (int) (camera.getX() + 799) / tileSize[0];
+            int startY = (int) (camera.getY() / tileSize[1]);
+            int endY = (int) (camera.getY() + 599) / tileSize[1];
+            
+            for(int i=startIndex; i<= endIndex; i++) {
+            	for(int j=startY; j<= endY; j++) {
             			glDrawSprite(gl, tilearray[j * backgroundDef.getWidth() + i],i * tileSize[0] - camera.getX(),
             					j * tileSize[1] - camera.getY(), tileSize[0], tileSize[1]);
             		} 
             }
-            // Draw the sprite
-            glDrawSprite(gl, currFrame, spritePos[0], spritePos[1], spriteSize[0],spriteSize[1]);
             
-	        	
+            AABBCamera spriteAABB = new AABBCamera(spritePos[0], spritePos[1], spriteSize[0], spriteSize[1]);
+            
+    			AABBCamera cameraAABB = new AABBCamera(camera.getX(), camera.getY(), 800,600);
+            
+            if (AABBIntersect(cameraAABB, spriteAABB)) {
+  
+        			glDrawSprite(gl, currFrame, spritePos[0]- camera.getX(), spritePos[1] -camera.getY(), spriteSize[0],spriteSize[1]);
+			}
+            
+            for(Enemy e: enemies) {
+            	AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(),e.getWidth(),e.getHeight());
+	            if (AABBIntersect(cameraAABB, enemyAABB)) {
+	    				glDrawSprite(gl, enemytex, enemyPos[0]- camera.getX(), enemyPos[1] -camera.getY(), enemySize[0],enemySize[1]);
+
+	            	}
+            }
+            
+          
+            for(Bullet b: bullets) {
+            	AABBCamera bulletAABB = new AABBCamera(b.getX(), b.getY(),b.getWidth(),b.getHeight());
+	            if (AABBIntersect(cameraAABB, bulletAABB)) {
+	    				glDrawSprite(gl, bullettex, b.getX()- camera.getX(), b.getY() -camera.getY(), bulletSize[0],bulletSize[1]);
+	            	}
+            }
+            
         }
     }
+    
 
-  
+	public static boolean AABBIntersect(AABBCamera box1, AABBCamera box2) {
+		// box1 to the right
+		if (box1.getX() > box2.getX() + box2.getWidth()) {
+			return false;
+		}
+		// box1 to the left
+		if (box1.getX() + box1.getWidth() < box2.getX()) {
+			return false;
+		}
+		// box1 below
+		if (box1.getY() > box2.getY() + box2.getHeight()) {
+			return false;
+		}
+		// box1 above
+		if (box1.getY() + box1.getHeight() < box2.getY()) {
+			return false;
+		}
+		return true;
+	}
     
     // Load a file into an OpenGL texture and return that texture.
     public static int glTexImageTGAFile(GL2 gl, String filename, int[] out_size) {
@@ -383,19 +482,19 @@ public class JavaTemplate {
         }
     }
 
-    public static void glDrawSprite(GL2 gl, int tex, int x, int y, int w, int h) {
+    public static void glDrawSprite(GL2 gl, int tex, float x, float y, int w, int h) {
         gl.glBindTexture(GL2.GL_TEXTURE_2D, tex);
         gl.glBegin(GL2.GL_QUADS);
         {
             gl.glColor3ub((byte)-1, (byte)-1, (byte)-1);
             gl.glTexCoord2f(0, 1);
-            gl.glVertex2i(x, y);
+            gl.glVertex2f(x, y);
             gl.glTexCoord2f(1, 1);
-            gl.glVertex2i(x + w, y);
+            gl.glVertex2f(x + w, y);
             gl.glTexCoord2f(1, 0);
-            gl.glVertex2i(x + w, y + h);
+            gl.glVertex2f(x + w, y + h);
             gl.glTexCoord2f(0, 0);
-            gl.glVertex2i(x, y + h);
+            gl.glVertex2f(x, y + h);
         }
         gl.glEnd();
     }
