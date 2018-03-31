@@ -28,13 +28,17 @@ public class JavaTemplate {
     private static float[] spritePos = new float[] { 0, 515 };    
 
     private static float[] enemyPos = new float[] { 400, 515 };
-    private static float[] bulletPos = new float[] { spritePos[0] +5, spritePos[1] };
+    private static float[] bulletPos = new float[] { spritePos[0], spritePos[1] };
 	private static int currFrame;
 
     // Texture for the sprite.
     private static int cloud;
     private static int power;
     private static int tree;
+    private static int wall;
+    private static int wall1;
+    private static int wall2;
+    private static int wall3;
     private static int tree1;
     private static int tile;
     private static int bush;
@@ -113,6 +117,10 @@ public class JavaTemplate {
         
 		sky = glTexImageTGAFile(gl, "backgroundImages/sky.tga",tileSize);
 		power = glTexImageTGAFile(gl, "backgroundImages/power.tga",tileSize);
+		wall = glTexImageTGAFile(gl, "backgroundImages/wall.tga",tileSize);
+		wall1 = glTexImageTGAFile(gl, "backgroundImages/wall1.tga",tileSize);
+		wall2 = glTexImageTGAFile(gl, "backgroundImages/wall2.tga",tileSize);
+		wall3 = glTexImageTGAFile(gl, "backgroundImages/wall3.tga",tileSize);
 		bush = glTexImageTGAFile(gl, "backgroundImages/bush.tga",tileSize);
 		bush1 = glTexImageTGAFile(gl, "backgroundImages/bush1.tga",tileSize);
 		tree = glTexImageTGAFile(gl, "backgroundImages/tree.tga",tileSize);
@@ -157,6 +165,14 @@ public class JavaTemplate {
 					tilearray[j*backgroundDef.getWidth() + i] = bush;
 				}else if (backgroundDef.getTile(i, j) == 9 ){
 					tilearray[j*backgroundDef.getWidth() + i] = bush1;
+				}else if (backgroundDef.getTile(i, j) == 10 ){
+					tilearray[j*backgroundDef.getWidth() + i] = wall;
+				}else if (backgroundDef.getTile(i, j) == 11 ){
+					tilearray[j*backgroundDef.getWidth() + i] = wall1;
+				}else if (backgroundDef.getTile(i, j) == 12 ){
+					tilearray[j*backgroundDef.getWidth() + i] = wall2;
+				}else if (backgroundDef.getTile(i, j) == 13 ){
+					tilearray[j*backgroundDef.getWidth() + i] = wall3;
 				}
 			}
 		}
@@ -247,9 +263,10 @@ public class JavaTemplate {
                 shouldExit   = true;
             }    
             	
+            AABBCamera spriteAABB = new AABBCamera(spritePos[0], spritePos[1], spriteSize[0], spriteSize[1]);
             //Bullet Press
             	if(kbState[KeyEvent.VK_SPACE] && !kbPrevState[KeyEvent.VK_SPACE]) {
-            		bullets.add(new Bullet(spritePos[0] +100,spritePos[1],bulletSize[0],bulletSize[1],bullettex));
+            		bullets.add(new Bullet(spritePos[0],spritePos[1],bulletSize[0],bulletSize[1],bullettex));
             	}
             
                 //up
@@ -258,11 +275,7 @@ public class JavaTemplate {
                 		// update the position when sprite moves
                 		rightanimation.updateSprite(deltaTimeMS);
                 		currFrame = rightanimation.getCurrentFrame();
-                		//Intelligent Camera
-                		float y = spritePos[1] - camera.getY();
-                		if(camera.getY() > 0) {
-                			camera.setY(camera.getY() - 3);
-                		}
+                		
                 	} 
              
                 // Down Key
@@ -270,22 +283,26 @@ public class JavaTemplate {
 	                	spritePos[1] += deltaTimeMS * playerspeed;             	
 	                	leftanimation.updateSprite(deltaTimeMS);
                 		currFrame = leftanimation.getCurrentFrame();      		
-                		//Intelligent Camera
-                		float y = spritePos[1] - camera.getY();
-                		if(camera.getY() < 599) {
-                			camera.setY(camera.getY() + 3);
-              		}
+                		
                 		
                 }
                 //Left Key
-                else if(kbState[KeyEvent.VK_LEFT] && spritePos[0] > 0){ 
+                else if(kbState[KeyEvent.VK_LEFT]){ 
                 		spritePos[0] -= deltaTimeMS * playerspeed; 
                 		leftanimation.updateSprite(deltaTimeMS);
                 		currFrame = leftanimation.getCurrentFrame();
-                		//Intelligent Camera
-                		float x = spritePos[0] - camera.getX();
-                		if(camera.getX() > 0 && x<50) {
-                			camera.setX(camera.getX() - 3);
+                		if(spritePos[0] < 0) {
+                			spritePos[0] = 0;
+                		}
+                		int upperSpriteIndexX = (int) (spritePos[0] / spriteSize[0]) ;
+                		int upperSpriteIndexY = (int) (spritePos[1] / spriteSize[1]);
+                		int lowerSpriteIndexX = (int) (spritePos[0] + (spriteSize[0] - 1) / spriteSize[0]);
+                		int lowerSpriteIndexY = (int) (spritePos[1] + (spriteSize[1] - 1) / spriteSize[1]);
+                		
+                		for(int i= upperSpriteIndexX; i<= upperSpriteIndexY; i++) {
+                			for(int j= lowerSpriteIndexX; j <= lowerSpriteIndexY; j++) {
+                				
+                			}
                 		}
                 }
                 //right Key
@@ -293,11 +310,7 @@ public class JavaTemplate {
                 		spritePos[0] +=  deltaTimeMS * playerspeed;
                 		rightanimation.updateSprite(deltaTimeMS);
                 		currFrame = rightanimation.getCurrentFrame();
-                		//Intelligent Camera
-                		float x = spritePos[0] - camera.getX();
-                		if(camera.getX() < 799 && x<50) {
-                			camera.setX(camera.getX() + 3);
-                		}
+                		
                 		
                 } else {
                 		idleanimation.updateSprite(deltaTimeMS);
@@ -356,7 +369,7 @@ public class JavaTemplate {
             		} 
             }
             
-            AABBCamera spriteAABB = new AABBCamera(spritePos[0], spritePos[1], spriteSize[0], spriteSize[1]);
+           
             
     			AABBCamera cameraAABB = new AABBCamera(camera.getX(), camera.getY(), 800,600);
             
