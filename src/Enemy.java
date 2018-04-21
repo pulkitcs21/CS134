@@ -1,8 +1,11 @@
+import java.util.Random;
 
-public class Enemy {
+public class Enemy{
 	private float x,y;
 	private int width, height,currentTexture, hitpoints;
-	
+	long timeMSNextAction = 0;
+	long defaultTimeMS = 1000;
+	int action =0;
 	public Enemy(float x, float y, int width, int height, int currentTexture, int hitpoints) {
 		super();
 		this.x = x;
@@ -47,6 +50,27 @@ public class Enemy {
 	}
 	public void setHitpoints(int hitpoints) {
 		this.hitpoints = hitpoints;
+	}
+	
+	public int Update(long deltatime) {
+		int random = new Random().nextInt(6) + 1;
+		timeMSNextAction -= deltatime;
+		if (timeMSNextAction <= 0) {
+			timeMSNextAction += defaultTimeMS;
+			// Aggressive
+			if (random > 0 && random <= 2) {
+				action = 1;
+			} else if (random > 2 && random <= 4) {
+				// defensive
+				action = 2;
+				
+			} else {
+				//Do Nothing
+				action = 0;
+
+			}
+		}
+		return action;
 	}
 	
 }
