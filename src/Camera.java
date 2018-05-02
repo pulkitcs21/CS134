@@ -2,7 +2,10 @@
 public class Camera {
 	private float x;
 	private float y;
+
 	
+
+
 	public Camera(float x, float y){
 		this.x = x;
 		this.y = y;
@@ -15,6 +18,8 @@ public class Camera {
 	public float getY(){
 		return y;
 	}
+
+
 
 	public void setX(float x) {
 		this.x = x;

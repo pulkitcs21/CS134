@@ -56,6 +56,8 @@ public class JavaTemplate {
 	private static int enemytex;
 	private static int enemytex2;
 	private static int bullettex;
+	private static int windowWidth = 800;
+	private static int windowHeight = 600;
 
 	// Size of the sprite.
 	private static int[] spriteSize = new int[2];
@@ -82,7 +84,7 @@ public class JavaTemplate {
 		// Create the window and OpenGL context.
 		GLWindow window = GLWindow.create(new GLCapabilities(gl2Profile));
 		// OSX doubles the windows size
-		window.setSize(800 / 2, 600 / 2);
+		window.setSize(windowWidth / 2, windowHeight / 2);
 		window.setTitle("Super Mairo");
 		window.setVisible(true);
 		window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);
@@ -108,16 +110,16 @@ public class JavaTemplate {
 		// Setup OpenGL state.
 		window.getContext().makeCurrent();
 		GL2 gl = window.getGL().getGL2();
-		gl.glViewport(0, 0, 800, 600);
+		gl.glViewport(0, 0, windowWidth, windowHeight);
 		gl.glMatrixMode(GL2.GL_PROJECTION);
-		gl.glOrtho(0, 800, 600, 0, 0, 100);
+		gl.glOrtho(0, windowWidth, windowHeight, 0, 0, 100);
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 		gl.glEnable(GL2.GL_BLEND);
 		gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
 
 		// Game initialization goes here.
-		// Initializing backgrounds
 
+		// Initializing backgrounds
 		sky = glTexImageTGAFile(gl, "backgroundImages/sky.tga", tileSize);
 		power = glTexImageTGAFile(gl, "backgroundImages/power.tga", tileSize);
 		wall = glTexImageTGAFile(gl, "backgroundImages/wall.tga", tileSize);
@@ -215,6 +217,149 @@ public class JavaTemplate {
 		// Bullets ArrayList
 		ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
+		/*
+		 * Font font; font = new Font(8, "full font"); font.addCharacter('0',
+		 * glTexImageTGAFile(gl, "JoglTemplate/fonts/fontA/fullfont_0.tga", new int[] {
+		 * 50, 50 }), 6); font.addCharacter('1', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_1.tga", new int[] { 50, 50 }), 3);
+		 * font.addCharacter('2', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_2.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('3', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_3.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('4', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_4.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('5', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_5.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('6', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_6.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('7', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_7.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('8', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_8.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('9', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_9.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('/', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_backslash.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('=', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_equals.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('a', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_A.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('b', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_B.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('c', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_C.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('d', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_D.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('e', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_E.tga", new int[] { 50, 50 }), 5);
+		 * font.addCharacter('f', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_F.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('g', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_G.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('h', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_H.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('i', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_I.tga", new int[] { 50, 50 }), 4);
+		 * font.addCharacter('j', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_J.tga", new int[] { 50, 50 }), 4);
+		 * font.addCharacter('k', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_K.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('l', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_L.tga", new int[] { 50, 50 }), 4);
+		 * font.addCharacter('m', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_M.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('n', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_N.tga", new int[] { 50, 50 }), 5);
+		 * font.addCharacter('o', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_O.tga", new int[] { 50, 50 }), 5);
+		 * font.addCharacter('p', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_P.tga", new int[] { 50, 50 }), 5);
+		 * font.addCharacter('q', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_Q.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('r', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_R.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('s', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_S.tga", new int[] { 50, 50 }), 5);
+		 * font.addCharacter('t', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_T.tga", new int[] { 50, 50 }), 5);
+		 * font.addCharacter('u', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_U.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('v', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_V.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('w', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_W.tga", new int[] { 50, 50 }), 7);
+		 * font.addCharacter('x', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_X.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('y', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_Y.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('z', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Lower_Z.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('A', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_A.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('B', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_B.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('C', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_C.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('D', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_D.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('E', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_E.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('F', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_F.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('G', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_G.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('H', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_H.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('I', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_I.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('J', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_J.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('K', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_K.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('L', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_L.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('M', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_M.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('N', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_N.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('O', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_O.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('P', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_P.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('Q', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_Q.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('R', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_R.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('S', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_S.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('T', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_T.tga", new int[] { 50, 50 }), 7);
+		 * font.addCharacter('U', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_U.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('V', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_V.tga", new int[] { 50, 50 }), 6);
+		 * font.addCharacter('W', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_W.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('X', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_X.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('Y', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_Y.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('Z', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Upper_Z.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('+', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_plus.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('.', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_point.tga", new int[] { 50, 50 }), 2);
+		 * font.addCharacter('?', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_question.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('\\', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_quote.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter('/', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_slash.tga", new int[] { 50, 50 }), 8);
+		 * font.addCharacter(' ', glTexImageTGAFile(gl,
+		 * "JoglTemplate/fonts/fontA/fullfont_Space.tga", new int[] { 50, 50 }), 8);
+		 * 
+		 */
 		// The game loop
 		int physicsDeltaTime = 10;
 		int physicsFrameMS = (int) (System.nanoTime() / 1000000);
@@ -274,65 +419,75 @@ public class JavaTemplate {
 				bullets.add(new Bullet(spritePos[0], spritePos[1], bulletSize[0], bulletSize[1], bullettex));
 			}
 
-			 for(Enemy e: enemies) {
-				 int action = e.Update(deltaTimeMS);
-				 float x = e.getX();
-				 float y = e.getY();
-				 if(action == 1) {
-						if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < (1600- enemySize[0]))) {
-							x += deltaTimeMS * enemyspeed;
-							if(x < 0) x=0;
+			// ENEMY AI
+			for (Enemy e : enemies) {
+				int action = e.Update(deltaTimeMS);
+				float x = e.getX();
+				float y = e.getY();
+				if (action == 1) {
+					if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < (1600 - enemySize[0]))) {
+						x += deltaTimeMS * enemyspeed;
+						if (x < 0)
+							x = 0;
+						e.setX(x);
+					} else {
+						if (e.getX() > 0 && (e.getX() < (1600 - enemySize[0]))) {
+							x -= deltaTimeMS * enemyspeed;
+							if (x < 0)
+								x = 0;
 							e.setX(x);
-						}else {
-							if(e.getX() > 0 && (e.getX() < (1600- enemySize[0]))) {
-								x -= deltaTimeMS * enemyspeed;
-								if(x < 0) x=0;
-								e.setX(x);
-							}
 						}
+					}
 
-						enemyrightanimation.updateSprite(deltaTimeMS);
-						enemyFrame = enemyrightanimation.getCurrentFrame();
-				 }else if(action ==2) {
-					 if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < (1600- enemySize[0])) ) {
-						 // Move away from player
-							x -= deltaTimeMS * playerspeed;
-							if(x < 0) x=0;
+					enemyrightanimation.updateSprite(deltaTimeMS);
+					enemyFrame = enemyrightanimation.getCurrentFrame();
+				} else if (action == 2) {
+					if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < (1600 - enemySize[0]))) {
+						// Move away from player
+						x -= deltaTimeMS * playerspeed;
+						if (x < 0)
+							x = 0;
+						e.setX(x);
+					} else {
+						if (e.getX() > 0 && (e.getX() < (1600 - enemySize[0]))) {
+							x += deltaTimeMS * playerspeed;
+							if (x < 0)
+								x = 0;
 							e.setX(x);
-						}else {
-							if(e.getX() > 0 && (e.getX() < (1600- enemySize[0]))) {
-								x += deltaTimeMS * playerspeed;
-								if(x < 0) x=0;
-								e.setX(x);
-							}
 						}
-						enemyleftanimation.updateSprite(deltaTimeMS);
-						enemyFrame = enemyleftanimation.getCurrentFrame();
-				 }else {
-					 if (e.getX() < spritePos[0] && (e.getX() < (1600- enemySize[0])) && e.getX() > 0 ) {
-							e.setX(x);	
-						}
-					 	enemyidleanimation.updateSprite(deltaTimeMS);
-						enemyFrame = enemyidleanimation.getCurrentFrame();
-				 }
-			 }
-			 
-			 if (kbState[KeyEvent.VK_UP] && (spritePos[1] > 0)) {
-				 moveUp(deltaTimeMS, rightanimation, playerspeed, ta);
-			 }else if (kbState[KeyEvent.VK_DOWN] && spritePos[1] <= ((backgroundDef.getWidth() * 30) - spriteSize[1])) {
-				 moveDown(deltaTimeMS, leftanimation, playerspeed, ta);
-			 } else if (kbState[KeyEvent.VK_RIGHT]&& spritePos[0] <= ((backgroundDef.getHeight() * backgroundDef.getWidth()) - spriteSize[0])) {
-				 moveRight(deltaTimeMS, rightanimation, playerspeed, ta);
-			 }else if (kbState[KeyEvent.VK_LEFT]) {
-				 moveLeft(deltaTimeMS, leftanimation, playerspeed, ta);
-			 }else {
+					}
+					enemyleftanimation.updateSprite(deltaTimeMS);
+					enemyFrame = enemyleftanimation.getCurrentFrame();
+				} else {
+					if (e.getX() < spritePos[0] && (e.getX() < (1600 - enemySize[0])) && e.getX() > 0) {
+						e.setX(x);
+					}
+					enemyidleanimation.updateSprite(deltaTimeMS);
+					enemyFrame = enemyidleanimation.getCurrentFrame();
+				}
+			}
+
+			// ANIMATIONS FOR MARIO
+			if (kbState[KeyEvent.VK_UP] && (spritePos[1] > 0)) {
+				moveUp(deltaTimeMS, rightanimation, playerspeed, ta);
+			} else if (kbState[KeyEvent.VK_DOWN] && spritePos[1] <= ((backgroundDef.getWidth() * 30) - spriteSize[1])) {
+				moveDown(deltaTimeMS, leftanimation, playerspeed, ta);
+			} else if (kbState[KeyEvent.VK_RIGHT]
+					&& spritePos[0] <= ((backgroundDef.getHeight() * backgroundDef.getWidth()) - spriteSize[0])) {
+				moveRight(deltaTimeMS, rightanimation, playerspeed, ta);
+			} else if (kbState[KeyEvent.VK_LEFT]) {
+				moveLeft(deltaTimeMS, leftanimation, playerspeed, ta);
+			} else {
 				idleanimation.updateSprite(deltaTimeMS);
 				currFrame = idleanimation.getCurrentFrame();
 			}
 
 			// Camera Controls
-			CameraControls(camera);
-
+			cameraDown(camera);
+			cameraLeft(camera);
+			cameraRight(camera);
+			cameraUp(camera);
+			
 			gl.glClearColor(0, 0, 0, 1);
 			gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 
@@ -344,14 +499,17 @@ public class JavaTemplate {
 
 			for (int i = startIndex; i <= endIndex; i++) {
 				for (int j = startY; j <= endY; j++) {
+					int index = (j * backgroundDef.getWidth() + i);
+					if (index >= tilearray.length)
+						continue;
 					glDrawSprite(gl, tilearray[j * backgroundDef.getWidth() + i], i * tileSize[0] - camera.getX(),
 							j * tileSize[1] - camera.getY(), tileSize[0], tileSize[1]);
 				}
 			}
-			
+
 			// Sprite Collision
 			AABBCamera spriteAABB = new AABBCamera(spritePos[0], spritePos[1], spriteSize[0], spriteSize[1]);
-			AABBCamera cameraAABB = new AABBCamera(camera.getX(), camera.getY(), 800, 600);
+			AABBCamera cameraAABB = new AABBCamera(camera.getX(), camera.getY(), windowWidth, windowHeight);
 			if (AABBIntersect(cameraAABB, spriteAABB)) {
 				glDrawSprite(gl, currFrame, spritePos[0] - camera.getX(), spritePos[1] - camera.getY(), spriteSize[0],
 						spriteSize[1]);
@@ -365,7 +523,7 @@ public class JavaTemplate {
 
 				}
 			}
-			
+
 			for (Bullet b : bullets) {
 				AABBCamera bulletAABB = new AABBCamera(b.getX(), b.getY(), b.getWidth(), b.getHeight());
 				if (AABBIntersect(cameraAABB, bulletAABB)) {
@@ -373,66 +531,76 @@ public class JavaTemplate {
 							bulletSize[1]);
 				}
 			}
-			
 
 		}
 	}
 
-	public static void moveUp(long deltaTimeMS , AnimationDef rightanimation, float playerspeed, Tile[] ta ) {
-			spritePos[1] -= deltaTimeMS * playerspeed;
-			// update the position when sprite moves
-			rightanimation.updateSprite(deltaTimeMS);
-			currFrame = rightanimation.getCurrentFrame();
-			int upperSpriteIndexX = (int) (spritePos[0] / tileSize[0]);
-			int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
-			int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
-			int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
-			boxCollisionUP(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
+	/*
+	 * public static void DrawText(Font font, int textSize, float[] charPos, String
+	 * text, GL2 gl) { int textwidth = 0; for (int i = 0; i < text.length(); i++) {
+	 * char x = text.charAt(i); glDrawSprite(gl, font.fonts.get(x).image,
+	 * charPos[0]+textwidth, charPos[1], 30, 30); } }
+	 * 
+	 */
+	public static void moveUp(long deltaTimeMS, AnimationDef rightanimation, float playerspeed, Tile[] ta) {
+		spritePos[1] -= deltaTimeMS * playerspeed;
+		// update the position when sprite moves
+		rightanimation.updateSprite(deltaTimeMS);
+		currFrame = rightanimation.getCurrentFrame();
+		int upperSpriteIndexX = (int) (spritePos[0] / tileSize[0]);
+		int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
+		int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
+		int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
+		boxCollisionUP(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
 	}
-	public static void moveDown(long deltaTimeMS , AnimationDef leftanimation, float playerspeed, Tile[] ta ) {
-			spritePos[1] += deltaTimeMS * playerspeed;
-			leftanimation.updateSprite(deltaTimeMS);
-			currFrame = leftanimation.getCurrentFrame();
-			int upperSpriteIndexX = (int) (spritePos[0] / tileSize[0]);
-			int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
-			int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
-			int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
-			boxCollisionDown(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
+
+	public static void moveDown(long deltaTimeMS, AnimationDef leftanimation, float playerspeed, Tile[] ta) {
+		spritePos[1] += deltaTimeMS * playerspeed;
+		leftanimation.updateSprite(deltaTimeMS);
+		currFrame = leftanimation.getCurrentFrame();
+		int upperSpriteIndexX = (int) (spritePos[0] / tileSize[0]);
+		int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
+		int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
+		int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
+		boxCollisionDown(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
 	}
-	public static void moveRight(long deltaTimeMS , AnimationDef rightanimation, float playerspeed, Tile[] ta ) {
-			spritePos[0] += deltaTimeMS * playerspeed;
-			rightanimation.updateSprite(deltaTimeMS);
-			currFrame = rightanimation.getCurrentFrame();
-			int upperSpriteIndexX = (int) (spritePos[0] / tileSize[0]);
-			int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
-			int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
-			int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
-			boxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
+
+	public static void moveRight(long deltaTimeMS, AnimationDef rightanimation, float playerspeed, Tile[] ta) {
+		spritePos[0] += deltaTimeMS * playerspeed;
+		rightanimation.updateSprite(deltaTimeMS);
+		currFrame = rightanimation.getCurrentFrame();
+		int upperSpriteIndexX = (int) (spritePos[0] / tileSize[0]);
+		int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
+		int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
+		int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
+		boxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
 	}
-	public static void moveLeft(long deltaTimeMS , AnimationDef leftanimation, float playerspeed, Tile[] ta ) {
-			spritePos[0] -= deltaTimeMS * playerspeed;
-			leftanimation.updateSprite(deltaTimeMS);
-			currFrame = leftanimation.getCurrentFrame();
-			if (spritePos[0] < 0) {
-				spritePos[0] = 0;
-			}
-			int upperSpriteIndexX = (int) (spritePos[0] / tileSize[0]);
-			int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
-			int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
-			int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
-			boxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
+
+	public static void moveLeft(long deltaTimeMS, AnimationDef leftanimation, float playerspeed, Tile[] ta) {
+		spritePos[0] -= deltaTimeMS * playerspeed;
+		leftanimation.updateSprite(deltaTimeMS);
+		currFrame = leftanimation.getCurrentFrame();
+		if (spritePos[0] < 0) {
+			spritePos[0] = 0;
+		}
+		int upperSpriteIndexX = (int) (spritePos[0] / tileSize[0]);
+		int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
+		int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
+		int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
+		boxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
 	}
-	
-	public static void CameraControls(Camera camera) {
-		// UP
-		if (kbState[KeyEvent.VK_W]) {
-			if (camera.getY() - 3 < 0) {
-				camera.setY(camera.getY());
+
+	public static void cameraRight(Camera camera) {
+		if (kbState[KeyEvent.VK_D]) {
+			if (camera.getX() + windowWidth > backgroundDef.getWidth() * tileSize[0]) {
+				camera.setX(camera.getX());
 			} else {
-				camera.setY(camera.getY() - 3.0f);
+				camera.setX(camera.getX() + 3.0f );
 			}
 		}
-		// LEft
+	}
+
+	public static void cameraLeft(Camera camera) {
 		if (kbState[KeyEvent.VK_A]) {
 			if (camera.getX() - 3 < 0) {
 				camera.setX(camera.getX());
@@ -440,24 +608,30 @@ public class JavaTemplate {
 				camera.setX(camera.getX() - 3.0f);
 			}
 		}
-		// Down
+	}
+
+	public static void cameraDown(Camera camera) {
+
 		if (kbState[KeyEvent.VK_S]) {
-			if (camera.getY() + 3 > 599) {
+			if (camera.getY() + windowHeight > backgroundDef.getHeight() * tileSize[1]) {
 				camera.setY(camera.getY());
 			} else {
 				camera.setY(camera.getY() + 3.0f);
 			}
 		}
+	}
 
-		// Right
-		if (kbState[KeyEvent.VK_D]) {
-			if (camera.getX() + 3 > 799) {
-				camera.setX(camera.getX());
+	public static void cameraUp(Camera camera) {
+		if (kbState[KeyEvent.VK_W]) {
+			if (camera.getY() - 3 < 0) {
+				camera.setY(camera.getY());
 			} else {
-				camera.setX(camera.getX() + 3.0f);
+				camera.setY(camera.getY() - 3.0f);
 			}
 		}
 	}
+
+
 
 	public static void drawBackground(int[] tilearray) {
 		BackgroundDef backgroundDef = new BackgroundDef();
@@ -685,6 +859,5 @@ public class JavaTemplate {
 		}
 		gl.glEnd();
 	}
-
 
 }
