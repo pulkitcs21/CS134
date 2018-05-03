@@ -13,6 +13,7 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.sound.sampled.Clip;
 
 public class JavaTemplate {
 	// Set this to true to make the game loop exit.
@@ -178,7 +179,14 @@ public class JavaTemplate {
 		FrameDef[] idle = { new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), (float) 600),
 
 		};
+		
+		FrameDef[] jump= { 
+				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), (float) 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), (float) 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), (float) 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), (float) 100),
 
+		};
 		FrameDef[] moveleft = { new FrameDef(glTexImageTGAFile(gl, "Animations/left.tga", spriteSize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "Animations/left2.tga", spriteSize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "Animations/left3.tga", spriteSize), (float) 100) };
@@ -209,6 +217,7 @@ public class JavaTemplate {
 		AnimationDef idleanimation = new AnimationDef(idle);
 		AnimationDef leftanimation = new AnimationDef(moveleft);
 		AnimationDef rightanimation = new AnimationDef(moveright);
+		AnimationDef jumpanimation = new AnimationDef(jump);
 
 		AnimationDef enemyidleanimation = new AnimationDef(enemyidle);
 		AnimationDef enemyleftanimation = new AnimationDef(enemymoveleft);
@@ -301,6 +310,10 @@ public class JavaTemplate {
 
 		long curFrameNS = System.nanoTime();
 
+		Sound soundMain = Sound.loadFromFile("sounds/main.wav");
+        Clip bgClip = soundMain.playLooping();
+        
+        
 		while (!shouldExit) {
 			System.arraycopy(kbState, 0, kbPrevState, 0, kbState.length);
 			lastFrameNS = curFrameNS;
@@ -399,8 +412,9 @@ public class JavaTemplate {
 			}
 
 			// ANIMATIONS FOR MARIO
+			float playerspeed2 = 8.0f / 16;
 			if (kbState[KeyEvent.VK_UP] && (spritePos[1] > 0)) {
-				moveUp(deltaTimeMS, rightanimation, playerspeed, ta);
+				moveUp(deltaTimeMS, jumpanimation, playerspeed2, ta);
 			} else if (kbState[KeyEvent.VK_DOWN] && spritePos[1] <= ((backgroundDef.getWidth() * 30) - spriteSize[1])) {
 				moveDown(deltaTimeMS, leftanimation, playerspeed, ta);
 			} else if (kbState[KeyEvent.VK_RIGHT]
@@ -527,6 +541,7 @@ public class JavaTemplate {
 		int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
 		boxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
 	}
+	
 
 	public static void cameraRight(Camera camera) {
 		if (kbState[KeyEvent.VK_D]) {
