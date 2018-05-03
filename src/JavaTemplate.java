@@ -53,6 +53,7 @@ public class JavaTemplate {
 	private static int bush;
 	private static int bush1;
 	private static int cloud2;
+	private static int flag;
 	private static int platform;
 	private static int sky;
 	private static int enemytex;
@@ -138,6 +139,7 @@ public class JavaTemplate {
 		cloud2 = glTexImageTGAFile(gl, "backgroundImages/cloud2.tga", tileSize);
 		stair = glTexImageTGAFile(gl, "backgroundImages/stair.tga", tileSize);
 		stair2 = glTexImageTGAFile(gl, "backgroundImages/stair2.tga", tileSize);
+		flag = glTexImageTGAFile(gl, "backgroundImages/flag.tga", tileSize);
 
 		Tile skyt = new Tile(false, sky);
 		Tile powert = new Tile(true, power);
@@ -155,8 +157,9 @@ public class JavaTemplate {
 		Tile cloud2t = new Tile(false, cloud2);
 		Tile stairt = new Tile(true, stair);
 		Tile stair2t = new Tile(true, stair2);
+		Tile flagt = new Tile(true, flag);
 		Tile[] ta = { platformt, skyt, cloudt, cloud2t, powert, tilet, treet, tree1t, busht, bush1t, wallt, wall1t,
-				wall2t, wall3t, stairt, stair2t };
+				wall2t, wall3t, stairt, stair2t, flagt };
 
 		// Enemy Texture
 		enemytex = glTexImageTGAFile(gl, "enemy/enemy1.tga", enemySize);
@@ -223,14 +226,69 @@ public class JavaTemplate {
 		ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 		
-		   Font font = new Font(30, "WORLD1"); 
-		   font.addCharacter('1',glTexImageTGAFile(gl, "fonts/1.tga", new int[] {50, 50 }), 30);
-		   font.addCharacter('W', glTexImageTGAFile(gl, "fonts/W.tga", new int[]{50,50}), 30);
-		   font.addCharacter('O', glTexImageTGAFile(gl, "fonts/O.tga", new int[]{50,50}), 30);
-		   font.addCharacter('R', glTexImageTGAFile(gl, "fonts/R.tga", new int[]{50,50}), 30);
-		   font.addCharacter('L', glTexImageTGAFile(gl, "fonts/L.tga", new int[]{50,50}), 30);
+		   Font font = new Font(30, "1"); 
+		   font.addCharacter('/',glTexImageTGAFile(gl, "fonts/slash.tga", new int[] {50, 50 }), 20);
+		   font.addCharacter('1',glTexImageTGAFile(gl, "fonts/1.tga", new int[] {50, 50 }), 20);
+		   font.addCharacter('2',glTexImageTGAFile(gl, "fonts/2.tga", new int[] {50, 50 }), 10);
+		   font.addCharacter('3',glTexImageTGAFile(gl, "fonts/3.tga", new int[] {50, 50 }), 30);
+		   font.addCharacter('4',glTexImageTGAFile(gl, "fonts/4.tga", new int[] {50, 50 }), 30);
+		   font.addCharacter('5',glTexImageTGAFile(gl, "fonts/5.tga", new int[] {50, 50 }), 30);
+		   font.addCharacter('6',glTexImageTGAFile(gl, "fonts/6.tga", new int[] {50, 50 }), 30);
+		   font.addCharacter('7',glTexImageTGAFile(gl, "fonts/7.tga", new int[] {50, 50 }), 30);
+		   font.addCharacter('8',glTexImageTGAFile(gl, "fonts/8.tga", new int[] {50, 50 }), 30);
+		   font.addCharacter('9',glTexImageTGAFile(gl, "fonts/9.tga", new int[] {50, 50 }), 30);
+		   font.addCharacter('a', glTexImageTGAFile(gl, "fonts/a.tga", new int[]{50,50}), 30);
+		   font.addCharacter('b', glTexImageTGAFile(gl, "fonts/b.tga", new int[]{50,50}), 30);
+		   font.addCharacter('c', glTexImageTGAFile(gl, "fonts/c.tga", new int[]{50,50}), 30);
+		   font.addCharacter('d', glTexImageTGAFile(gl, "fonts/d.tga", new int[]{50,50}), 30);
+		   font.addCharacter('e', glTexImageTGAFile(gl, "fonts/e.tga", new int[]{50,50}), 30);
+		   font.addCharacter('f', glTexImageTGAFile(gl, "fonts/f.tga", new int[]{50,50}), 30);
+		   font.addCharacter('g', glTexImageTGAFile(gl, "fonts/g.tga", new int[]{50,50}), 30);
+		   font.addCharacter('h', glTexImageTGAFile(gl, "fonts/h.tga", new int[]{50,50}), 30);
+		   font.addCharacter('i', glTexImageTGAFile(gl, "fonts/i.tga", new int[]{50,50}), 30);
+		   font.addCharacter('j', glTexImageTGAFile(gl, "fonts/j.tga", new int[]{50,50}), 30);
+		   font.addCharacter('k', glTexImageTGAFile(gl, "fonts/k.tga", new int[]{50,50}), 30);
+		   font.addCharacter('l', glTexImageTGAFile(gl, "fonts/l.tga", new int[]{50,50}), 30);
+		   font.addCharacter('m', glTexImageTGAFile(gl, "fonts/m.tga", new int[]{50,50}), 30);
+		   font.addCharacter('n', glTexImageTGAFile(gl, "fonts/n.tga", new int[]{50,50}), 30);
+		   font.addCharacter('o', glTexImageTGAFile(gl, "fonts/o.tga", new int[]{50,50}), 30);
+		   font.addCharacter('p', glTexImageTGAFile(gl, "fonts/p.tga", new int[]{50,50}), 30);
+		   font.addCharacter('q', glTexImageTGAFile(gl, "fonts/q.tga", new int[]{50,50}), 30);
+		   font.addCharacter('r', glTexImageTGAFile(gl, "fonts/r.tga", new int[]{50,50}), 30);
+		   font.addCharacter('s', glTexImageTGAFile(gl, "fonts/s.tga", new int[]{50,50}), 30);
+		   font.addCharacter('t', glTexImageTGAFile(gl, "fonts/t.tga", new int[]{50,50}), 30);
+		   font.addCharacter('u', glTexImageTGAFile(gl, "fonts/u.tga", new int[]{50,50}), 30);
+		   font.addCharacter('v', glTexImageTGAFile(gl, "fonts/v.tga", new int[]{50,50}), 30);
+		   font.addCharacter('w', glTexImageTGAFile(gl, "fonts/w.tga", new int[]{50,50}), 30);
+		   font.addCharacter('x', glTexImageTGAFile(gl, "fonts/x.tga", new int[]{50,50}), 30);
+		   font.addCharacter('y', glTexImageTGAFile(gl, "fonts/y.tga", new int[]{50,50}), 30);
+		   font.addCharacter('z', glTexImageTGAFile(gl, "fonts/Z.tga", new int[]{50,50}), 30);
+		   font.addCharacter('A', glTexImageTGAFile(gl, "fonts/A.tga", new int[]{50,50}), 30);
+		   font.addCharacter('B', glTexImageTGAFile(gl, "fonts/B.tga", new int[]{50,50}), 30);
+		   font.addCharacter('C', glTexImageTGAFile(gl, "fonts/C.tga", new int[]{50,50}), 30);
 		   font.addCharacter('D', glTexImageTGAFile(gl, "fonts/D.tga", new int[]{50,50}), 30);
-		   
+		   font.addCharacter('E', glTexImageTGAFile(gl, "fonts/E.tga", new int[]{50,50}), 30);
+		   font.addCharacter('F', glTexImageTGAFile(gl, "fonts/F.tga", new int[]{50,50}), 30);
+		   font.addCharacter('G', glTexImageTGAFile(gl, "fonts/G.tga", new int[]{50,50}), 30);
+		   font.addCharacter('H', glTexImageTGAFile(gl, "fonts/H.tga", new int[]{50,50}), 30);
+		   font.addCharacter('I', glTexImageTGAFile(gl, "fonts/I.tga", new int[]{50,50}), 30);
+		   font.addCharacter('J', glTexImageTGAFile(gl, "fonts/J.tga", new int[]{50,50}), 30);
+		   font.addCharacter('K', glTexImageTGAFile(gl, "fonts/K.tga", new int[]{50,50}), 30);
+		   font.addCharacter('L', glTexImageTGAFile(gl, "fonts/L.tga", new int[]{50,50}), 30);
+		   font.addCharacter('M', glTexImageTGAFile(gl, "fonts/M.tga", new int[]{50,50}), 30);
+		   font.addCharacter('N', glTexImageTGAFile(gl, "fonts/N.tga", new int[]{50,50}), 30);
+		   font.addCharacter('O', glTexImageTGAFile(gl, "fonts/O.tga", new int[]{50,50}), 30);
+		   font.addCharacter('P', glTexImageTGAFile(gl, "fonts/P.tga", new int[]{50,50}), 30);
+		   font.addCharacter('Q', glTexImageTGAFile(gl, "fonts/Q.tga", new int[]{50,50}), 30);
+		   font.addCharacter('R', glTexImageTGAFile(gl, "fonts/R.tga", new int[]{50,50}), 30);
+		   font.addCharacter('S', glTexImageTGAFile(gl, "fonts/S.tga", new int[]{50,50}), 30);
+		   font.addCharacter('T', glTexImageTGAFile(gl, "fonts/T.tga", new int[]{50,50}), 30);
+		   font.addCharacter('U', glTexImageTGAFile(gl, "fonts/U.tga", new int[]{50,50}), 30);
+		   font.addCharacter('V', glTexImageTGAFile(gl, "fonts/V.tga", new int[]{50,50}), 30);
+		   font.addCharacter('W', glTexImageTGAFile(gl, "fonts/W.tga", new int[]{50,50}), 30);
+		   font.addCharacter('X', glTexImageTGAFile(gl, "fonts/X.tga", new int[]{50,50}), 30);
+		   font.addCharacter('Y', glTexImageTGAFile(gl, "fonts/Y.tga", new int[]{50,50}), 30);
+		   font.addCharacter('Z', glTexImageTGAFile(gl, "fonts/Z.tga", new int[]{50,50}), 30);
 		   
 		  
 		// The game loop
@@ -405,7 +463,11 @@ public class JavaTemplate {
 				}
 			}
 			float[] position = {50, 0};
-			DrawText(font, position,font.getName(), gl);
+			
+			float[] position2 = {75, font.lineHeight + 5};
+			//DrawText(font, position,font.getName(), gl);
+			DrawText(font, position,"WORLD", gl);
+			DrawText(font, position2,"1/1", gl);
 		}
 	}
 
@@ -544,6 +606,7 @@ public class JavaTemplate {
 				} else if (backgroundDef.getTile(i, j) == 15) {
 					tilearray[j * backgroundDef.getWidth() + i] = stair2;
 				}
+				
 			}
 		}
 
