@@ -45,6 +45,8 @@ public class JavaTemplate {
 	private static int wall;
 	private static int wall1;
 	private static int wall2;
+	private static int stair;
+	private static int stair2;
 	private static int wall3;
 	private static int tree1;
 	private static int tile;
@@ -134,7 +136,10 @@ public class JavaTemplate {
 		platform = glTexImageTGAFile(gl, "backgroundImages/platform.tga", tileSize);
 		cloud = glTexImageTGAFile(gl, "backgroundImages/cloud.tga", tileSize);
 		cloud2 = glTexImageTGAFile(gl, "backgroundImages/cloud2.tga", tileSize);
-
+		stair = glTexImageTGAFile(gl, "backgroundImages/stair.tga", tileSize);
+		stair2 = glTexImageTGAFile(gl, "backgroundImages/stair2.tga", tileSize);
+		
+		
 		Tile skyt = new Tile(false, sky);
 		Tile powert = new Tile(true, power);
 		Tile wallt = new Tile(true, wall);
@@ -149,9 +154,10 @@ public class JavaTemplate {
 		Tile platformt = new Tile(true, platform);
 		Tile cloudt = new Tile(false, cloud);
 		Tile cloud2t = new Tile(false, cloud2);
-
+		Tile stairt = new Tile(true, stair);
+		Tile stair2t = new Tile(true, stair2);
 		Tile[] ta = { platformt, skyt, cloudt, cloud2t, powert, tilet, treet, tree1t, busht, bush1t, wallt, wall1t,
-				wall2t, wall3t };
+				wall2t, wall3t, stairt, stair2t };
 
 		// Enemy Texture
 		enemytex = glTexImageTGAFile(gl, "enemy/enemy1.tga", enemySize);
@@ -523,6 +529,7 @@ public class JavaTemplate {
 
 				}
 			}
+			
 
 			for (Bullet b : bullets) {
 				AABBCamera bulletAABB = new AABBCamera(b.getX(), b.getY(), b.getWidth(), b.getHeight());
@@ -665,6 +672,11 @@ public class JavaTemplate {
 					tilearray[j * backgroundDef.getWidth() + i] = wall2;
 				} else if (backgroundDef.getTile(i, j) == 13) {
 					tilearray[j * backgroundDef.getWidth() + i] = wall3;
+				}else if (backgroundDef.getTile(i, j) == 14) {
+					tilearray[j * backgroundDef.getWidth() + i] = stair;
+				}
+				else if (backgroundDef.getTile(i, j) == 15) {
+					tilearray[j * backgroundDef.getWidth() + i] = stair2;
 				}
 			}
 		}
