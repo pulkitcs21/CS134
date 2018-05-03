@@ -138,8 +138,7 @@ public class JavaTemplate {
 		cloud2 = glTexImageTGAFile(gl, "backgroundImages/cloud2.tga", tileSize);
 		stair = glTexImageTGAFile(gl, "backgroundImages/stair.tga", tileSize);
 		stair2 = glTexImageTGAFile(gl, "backgroundImages/stair2.tga", tileSize);
-		
-		
+
 		Tile skyt = new Tile(false, sky);
 		Tile powert = new Tile(true, power);
 		Tile wallt = new Tile(true, wall);
@@ -223,149 +222,17 @@ public class JavaTemplate {
 		// Bullets ArrayList
 		ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
-		/*
-		 * Font font; font = new Font(8, "full font"); font.addCharacter('0',
-		 * glTexImageTGAFile(gl, "JoglTemplate/fonts/fontA/fullfont_0.tga", new int[] {
-		 * 50, 50 }), 6); font.addCharacter('1', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_1.tga", new int[] { 50, 50 }), 3);
-		 * font.addCharacter('2', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_2.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('3', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_3.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('4', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_4.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('5', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_5.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('6', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_6.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('7', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_7.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('8', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_8.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('9', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_9.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('/', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_backslash.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('=', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_equals.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('a', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_A.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('b', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_B.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('c', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_C.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('d', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_D.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('e', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_E.tga", new int[] { 50, 50 }), 5);
-		 * font.addCharacter('f', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_F.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('g', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_G.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('h', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_H.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('i', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_I.tga", new int[] { 50, 50 }), 4);
-		 * font.addCharacter('j', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_J.tga", new int[] { 50, 50 }), 4);
-		 * font.addCharacter('k', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_K.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('l', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_L.tga", new int[] { 50, 50 }), 4);
-		 * font.addCharacter('m', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_M.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('n', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_N.tga", new int[] { 50, 50 }), 5);
-		 * font.addCharacter('o', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_O.tga", new int[] { 50, 50 }), 5);
-		 * font.addCharacter('p', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_P.tga", new int[] { 50, 50 }), 5);
-		 * font.addCharacter('q', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_Q.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('r', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_R.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('s', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_S.tga", new int[] { 50, 50 }), 5);
-		 * font.addCharacter('t', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_T.tga", new int[] { 50, 50 }), 5);
-		 * font.addCharacter('u', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_U.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('v', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_V.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('w', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_W.tga", new int[] { 50, 50 }), 7);
-		 * font.addCharacter('x', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_X.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('y', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_Y.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('z', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Lower_Z.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('A', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_A.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('B', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_B.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('C', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_C.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('D', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_D.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('E', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_E.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('F', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_F.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('G', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_G.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('H', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_H.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('I', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_I.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('J', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_J.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('K', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_K.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('L', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_L.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('M', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_M.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('N', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_N.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('O', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_O.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('P', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_P.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('Q', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_Q.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('R', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_R.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('S', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_S.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('T', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_T.tga", new int[] { 50, 50 }), 7);
-		 * font.addCharacter('U', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_U.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('V', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_V.tga", new int[] { 50, 50 }), 6);
-		 * font.addCharacter('W', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_W.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('X', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_X.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('Y', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_Y.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('Z', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Upper_Z.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('+', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_plus.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('.', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_point.tga", new int[] { 50, 50 }), 2);
-		 * font.addCharacter('?', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_question.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('\\', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_quote.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter('/', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_slash.tga", new int[] { 50, 50 }), 8);
-		 * font.addCharacter(' ', glTexImageTGAFile(gl,
-		 * "JoglTemplate/fonts/fontA/fullfont_Space.tga", new int[] { 50, 50 }), 8);
-		 * 
-		 */
+		
+		   Font font = new Font(30, "WORLD1"); 
+		   font.addCharacter('1',glTexImageTGAFile(gl, "fonts/1.tga", new int[] {50, 50 }), 30);
+		   font.addCharacter('W', glTexImageTGAFile(gl, "fonts/W.tga", new int[]{50,50}), 30);
+		   font.addCharacter('O', glTexImageTGAFile(gl, "fonts/O.tga", new int[]{50,50}), 30);
+		   font.addCharacter('R', glTexImageTGAFile(gl, "fonts/R.tga", new int[]{50,50}), 30);
+		   font.addCharacter('L', glTexImageTGAFile(gl, "fonts/L.tga", new int[]{50,50}), 30);
+		   font.addCharacter('D', glTexImageTGAFile(gl, "fonts/D.tga", new int[]{50,50}), 30);
+		   
+		   
+		  
 		// The game loop
 		int physicsDeltaTime = 10;
 		int physicsFrameMS = (int) (System.nanoTime() / 1000000);
@@ -493,7 +360,7 @@ public class JavaTemplate {
 			cameraLeft(camera);
 			cameraRight(camera);
 			cameraUp(camera);
-			
+
 			gl.glClearColor(0, 0, 0, 1);
 			gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 
@@ -529,7 +396,6 @@ public class JavaTemplate {
 
 				}
 			}
-			
 
 			for (Bullet b : bullets) {
 				AABBCamera bulletAABB = new AABBCamera(b.getX(), b.getY(), b.getWidth(), b.getHeight());
@@ -538,17 +404,20 @@ public class JavaTemplate {
 							bulletSize[1]);
 				}
 			}
-
+			float[] position = {50, 0};
+			DrawText(font, position,font.getName(), gl);
 		}
 	}
 
-	/*
-	 * public static void DrawText(Font font, int textSize, float[] charPos, String
-	 * text, GL2 gl) { int textwidth = 0; for (int i = 0; i < text.length(); i++) {
-	 * char x = text.charAt(i); glDrawSprite(gl, font.fonts.get(x).image,
-	 * charPos[0]+textwidth, charPos[1], 30, 30); } }
-	 * 
-	 */
+	public static void DrawText(Font font, float[] charPos, String text, GL2 gl) {
+		for (int i = 0; i < text.length(); i++) {
+			char x = text.charAt(i);
+			glDrawSprite(gl, font.glyphs.get(x).image, charPos[0], charPos[1], font.getlineHeight(), font.glyphs.get(x).width);
+			charPos[0] += 30;
+		}
+
+	}
+
 	public static void moveUp(long deltaTimeMS, AnimationDef rightanimation, float playerspeed, Tile[] ta) {
 		spritePos[1] -= deltaTimeMS * playerspeed;
 		// update the position when sprite moves
@@ -602,7 +471,7 @@ public class JavaTemplate {
 			if (camera.getX() + windowWidth > backgroundDef.getWidth() * tileSize[0]) {
 				camera.setX(camera.getX());
 			} else {
-				camera.setX(camera.getX() + 3.0f );
+				camera.setX(camera.getX() + 3.0f);
 			}
 		}
 	}
@@ -638,8 +507,6 @@ public class JavaTemplate {
 		}
 	}
 
-
-
 	public static void drawBackground(int[] tilearray) {
 		BackgroundDef backgroundDef = new BackgroundDef();
 		for (int i = 0; i < backgroundDef.getWidth(); i++) {
@@ -672,10 +539,9 @@ public class JavaTemplate {
 					tilearray[j * backgroundDef.getWidth() + i] = wall2;
 				} else if (backgroundDef.getTile(i, j) == 13) {
 					tilearray[j * backgroundDef.getWidth() + i] = wall3;
-				}else if (backgroundDef.getTile(i, j) == 14) {
+				} else if (backgroundDef.getTile(i, j) == 14) {
 					tilearray[j * backgroundDef.getWidth() + i] = stair;
-				}
-				else if (backgroundDef.getTile(i, j) == 15) {
+				} else if (backgroundDef.getTile(i, j) == 15) {
 					tilearray[j * backgroundDef.getWidth() + i] = stair2;
 				}
 			}

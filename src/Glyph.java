@@ -7,4 +7,9 @@ public class Glyph {
 		this.width = width;
 	}
 	
+	public int getWidth() {
+		return width;
+		
+	}
+	
 }
