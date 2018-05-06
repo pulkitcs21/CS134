@@ -1,6 +1,25 @@
 # CS134
 Making World 1-1 of Mario Using Java and OpenGL
+---
+## Getting Started
+---
+# Installing
+This project can be downloaded using clone or by getting the zip file.
 
+To run the game, double click on file "MARIO.JAR"
+Enjoy the game!
+---
+### Controls
+ - Up key = JUMP
+ - Left key = Left
+ - Right Key = Right
+ - W         = Camera up
+ - A         = Camera Left
+ - S         = Camera Right
+ - D         = Camera down
+ - Space     = Projectile
+ 
+---
 ## Description
 The goal of this project was to learn game development using Java and OpenGL.
 The game I decided to make was a clone of Mario super bros world 1.
