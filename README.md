@@ -38,4 +38,5 @@ The game I decided to make was a clone of Mario super bros world 1.
   * DrawText
   * Add Sound
   
-  
+## Achievements
+ By the end of this course, I was able to create the first world of Mario Super Bro with a bit of changes. Things which I implemnted to make this game are described in goals.
