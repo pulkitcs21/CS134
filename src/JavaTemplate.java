@@ -60,7 +60,7 @@ public class JavaTemplate {
 	private static int cloud2;
 	private static int platform;
 	private static int sky;
-	private static int gomboo;
+	private static int gombootex;
 	private static int koopatex;
 	private static int bullettex;
 	private static int windowWidth = 800;
@@ -164,7 +164,7 @@ public class JavaTemplate {
 				wall2t, wall3t, stairt, stair2t };
 
 		// Enemy Texture
-		gomboo = glTexImageTGAFile(gl, "enemy/enemy1.tga", enemySize);
+		gombootex = glTexImageTGAFile(gl, "enemy/enemy1.tga", enemySize);
 
 		koopatex = glTexImageTGAFile(gl, "enemy/koopaidle.tga", enemySize);
 		
@@ -251,12 +251,13 @@ public class JavaTemplate {
 		// Camera Initialization
 		Camera camera = new Camera(0, 0);
 
-		Enemy gomboo_ar = new Enemy(gombooX, gombooY, enemySize[0], enemySize[1], gomboo, 100);
+		Enemy gomboo_ar = new Enemy(gombooX, gombooY, enemySize[0], enemySize[1], gombootex, 100);
 
-		Enemy koopa_ar = new Enemy(koopaX, koopaY, enemySize[0], enemySize[1], gomboo, 100);
+		Enemy koopa_ar = new Enemy(koopaX, koopaY, enemySize[0], enemySize[1], gombootex, 100);
 
 		ArrayList<Enemy> arrayGomboo = new ArrayList<Enemy>();
 		arrayGomboo.add(gomboo_ar);
+		
 		ArrayList<Enemy> arraykoopa = new ArrayList<Enemy>();
 		arraykoopa.add(koopa_ar);
 
@@ -511,21 +512,18 @@ public class JavaTemplate {
 
 				}
 			}
-			
-			AABBCamera spriteeAABB = new AABBCamera(koopaX, koopaY, spriteSize[0], spriteSize[1]);
-			AABBCamera cameraaAABB = new AABBCamera(camera.getX(), camera.getY(), windowWidth, windowHeight);
-			if (AABBIntersect(cameraaAABB, spriteeAABB)) {
-				glDrawSprite(gl, koopatex, koopaX - camera.getX(), koopaY - camera.getY(), spriteSize[0],
-						spriteSize[1]);
-			}
+			System.out.println(koopaFrame);
+			for (Enemy e : arrayGomboo) {
+				AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+				if (AABBIntersect(cameraAABB, enemyAABB)) {
+					glDrawSprite(gl, koopaFrame, e.getX() - camera.getX(), e.getY() - camera.getY(), enemySize[0],
+							enemySize[1]);
 
-			for (Bullet b : bullets) {
-				AABBCamera bulletAABB = new AABBCamera(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-				if (AABBIntersect(cameraAABB, bulletAABB)) {
-					glDrawSprite(gl, bullettex, b.getX() - camera.getX(), b.getY() - camera.getY(), bulletSize[0],
-							bulletSize[1]);
 				}
 			}
+			
+			DrawBullet(gl, camera, bullets);
+			
 			float[] position = {50, 0};
 			
 			float[] position2 = {75, font.lineHeight + 5};
@@ -535,6 +533,16 @@ public class JavaTemplate {
 		}
 	}
 
+	public static void DrawBullet(GL2 gl, Camera camera, ArrayList<Bullet> bullets) {
+		for (Bullet b : bullets) {
+			AABBCamera bulletAABB = new AABBCamera(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+			AABBCamera cameraAABB = new AABBCamera(camera.getX(), camera.getY(), windowWidth, windowHeight);
+			if (AABBIntersect(cameraAABB, bulletAABB)) {
+				glDrawSprite(gl, bullettex, b.getX() - camera.getX(), b.getY() - camera.getY(), bulletSize[0],
+						bulletSize[1]);
+			}
+		}
+	}
 	public static void DrawText(Font font, float[] charPos, String text, GL2 gl) {
 		for (int i = 0; i < text.length(); i++) {
 			char x = text.charAt(i);
