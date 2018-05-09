@@ -499,44 +499,40 @@ public class JavaTemplate {
 			// Sprite Collision
 			AABBCamera spriteAABB = new AABBCamera(spritePos[0], spritePos[1], spriteSize[0], spriteSize[1]);
 			AABBCamera cameraAABB = new AABBCamera(camera.getX(), camera.getY(), windowWidth, windowHeight);
-			if (AABBIntersect(cameraAABB, spriteAABB)) {
-				glDrawSprite(gl, currFrame, spritePos[0] - camera.getX(), spritePos[1] - camera.getY(), spriteSize[0],
-						spriteSize[1]);
-			}
-
-			for (Enemy e : arrayGomboo) {
-				AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(), e.getWidth(), e.getHeight());
-				if (AABBIntersect(cameraAABB, enemyAABB)) {
-					glDrawSprite(gl, gombooFrame, e.getX() - camera.getX(), e.getY() - camera.getY(), enemySize[0],
-							enemySize[1]);
-
-				}
-			}
-			System.out.println(koopaFrame);
-			for (Enemy e : arrayGomboo) {
-				AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(), e.getWidth(), e.getHeight());
-				if (AABBIntersect(cameraAABB, enemyAABB)) {
-					glDrawSprite(gl, koopaFrame, e.getX() - camera.getX(), e.getY() - camera.getY(), enemySize[0],
-							enemySize[1]);
-
-				}
-			}
 			
-			DrawBullet(gl, camera, bullets);
+			drawMario(cameraAABB, spriteAABB, gl, cameraAABB);
+			
+			drawGomboo(gl, arrayGomboo, camera, cameraAABB);
+			
+			DrawBullet(gl, camera, bullets, cameraAABB);
+			
 			
 			float[] position = {50, 0};
-			
 			float[] position2 = {75, font.lineHeight + 5};
-			//DrawText(font, position,font.getName(), gl);
 			DrawText(font, position,"WORLD", gl);
 			DrawText(font, position2,"1/1", gl);
 		}
 	}
 
-	public static void DrawBullet(GL2 gl, Camera camera, ArrayList<Bullet> bullets) {
+	public static void drawMario(AABBCamera cameraAABB, AABBCamera spriteAABB, GL2 gl, Camera camera) {
+		if (AABBIntersect(cameraAABB, spriteAABB)) {
+			glDrawSprite(gl, currFrame, spritePos[0] - camera.getX(), spritePos[1] - camera.getY(), spriteSize[0],
+					spriteSize[1]);
+		}
+	}
+	public static void drawGomboo(GL2 gl ,ArrayList<Enemy> arrayGomboo,Camera camera,AABBCamera cameraAABB) {
+		for (Enemy e : arrayGomboo) {
+			AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+			if (AABBIntersect(cameraAABB, enemyAABB)) {
+				glDrawSprite(gl, gombooFrame, e.getX() - camera.getX(), e.getY() - camera.getY(), enemySize[0],
+						enemySize[1]);
+
+			}
+		}
+	}
+	public static void DrawBullet(GL2 gl, Camera camera, ArrayList<Bullet> bullets, AABBCamera cameraAABB) {
 		for (Bullet b : bullets) {
 			AABBCamera bulletAABB = new AABBCamera(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-			AABBCamera cameraAABB = new AABBCamera(camera.getX(), camera.getY(), windowWidth, windowHeight);
 			if (AABBIntersect(cameraAABB, bulletAABB)) {
 				glDrawSprite(gl, bullettex, b.getX() - camera.getX(), b.getY() - camera.getY(), bulletSize[0],
 						bulletSize[1]);
