@@ -30,15 +30,19 @@ public class JavaTemplate {
 	static float spritePosY = 510;
 	private static float[] spritePos = new float[] { spritePosX, spritePosY };
 
-	static float enemyPosX = 400;
-	static float enemyPosY = 510;
-	private static float[] enemyPos = new float[] { enemyPosX, enemyPosY };
+	static float gombooX = 400;
+	static float gombooY = 510;
+	
+	static float koopaX = 480;
+	static float koopaY = 510;
 
 	private static float[] bulletPos = new float[] { spritePosX, spritePosY };
 
 	private static int currFrame;
-	private static int enemyFrame;
-
+	private static int gombooFrame;
+	private static int koopaFrame;
+	
+	
 	// Texture for the sprite.
 	private static int cloud;
 	private static int power;
@@ -54,11 +58,10 @@ public class JavaTemplate {
 	private static int bush;
 	private static int bush1;
 	private static int cloud2;
-	private static int flag;
 	private static int platform;
 	private static int sky;
-	private static int enemytex;
-	private static int enemytex2;
+	private static int gomboo;
+	private static int koopatex;
 	private static int bullettex;
 	private static int windowWidth = 800;
 	private static int windowHeight = 600;
@@ -140,7 +143,6 @@ public class JavaTemplate {
 		cloud2 = glTexImageTGAFile(gl, "backgroundImages/cloud2.tga", tileSize);
 		stair = glTexImageTGAFile(gl, "backgroundImages/stair.tga", tileSize);
 		stair2 = glTexImageTGAFile(gl, "backgroundImages/stair2.tga", tileSize);
-		flag = glTexImageTGAFile(gl, "backgroundImages/flag.tga", tileSize);
 
 		Tile skyt = new Tile(false, sky);
 		Tile powert = new Tile(true, power);
@@ -158,13 +160,14 @@ public class JavaTemplate {
 		Tile cloud2t = new Tile(false, cloud2);
 		Tile stairt = new Tile(true, stair);
 		Tile stair2t = new Tile(true, stair2);
-		Tile flagt = new Tile(true, flag);
 		Tile[] ta = { platformt, skyt, cloudt, cloud2t, powert, tilet, treet, tree1t, busht, bush1t, wallt, wall1t,
-				wall2t, wall3t, stairt, stair2t, flagt };
+				wall2t, wall3t, stairt, stair2t };
 
 		// Enemy Texture
-		enemytex = glTexImageTGAFile(gl, "enemy/enemy1.tga", enemySize);
+		gomboo = glTexImageTGAFile(gl, "enemy/enemy1.tga", enemySize);
 
+		koopatex = glTexImageTGAFile(gl, "enemy/koopaidle.tga", enemySize);
+		
 		// Bullet Texture
 		bullettex = glTexImageTGAFile(gl, "bullet/fire.tga", bulletSize);
 
@@ -196,40 +199,66 @@ public class JavaTemplate {
 				new FrameDef(glTexImageTGAFile(gl, "Animations/right4.tga", spriteSize), (float) 100) };
 
 		// Gomboo Animations
-		FrameDef[] enemyidle = {
+		FrameDef[] gombooframeidle = {
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy1.tga", enemySize), (float) 600),
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy2.tga", enemySize), (float) 600),
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy3.tga", enemySize), (float) 600),
 
 		};
-		FrameDef[] enemymoveleft = {
+		FrameDef[] gombooframeleft = {
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy1.tga", enemySize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy2.tga", enemySize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy3.tga", enemySize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy4.tga", enemySize), (float) 100) };
-		FrameDef[] enemymoveright = {
+		FrameDef[] gombooframeright = {
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy1.tga", enemySize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy2.tga", enemySize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy3.tga", enemySize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy4.tga", enemySize), (float) 100),
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy5.tga", enemySize), (float) 100) };
+		
+		
+		// Koopa Animations
+				FrameDef[] koopaframeidle = {
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle.tga", enemySize), (float) 600),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle2.tga", enemySize), (float) 600)
+				};
+				FrameDef[] koopaframeleft = {
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft2.tga", enemySize), (float) 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft3.tga", enemySize), (float) 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft4.tga", enemySize), (float) 100) };
+				FrameDef[] koopaframeright = {
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100) };
 
 		AnimationDef idleanimation = new AnimationDef(idle);
 		AnimationDef leftanimation = new AnimationDef(moveleft);
 		AnimationDef rightanimation = new AnimationDef(moveright);
 		AnimationDef jumpanimation = new AnimationDef(jump);
 
-		AnimationDef enemyidleanimation = new AnimationDef(enemyidle);
-		AnimationDef enemyleftanimation = new AnimationDef(enemymoveleft);
-		AnimationDef enemyrightanimation = new AnimationDef(enemymoveright);
+		AnimationDef gombooidle = new AnimationDef(gombooframeidle);
+		AnimationDef gombooleft = new AnimationDef(gombooframeleft);
+		AnimationDef gombooright = new AnimationDef(gombooframeright);
+		
+		AnimationDef koopaidle = new AnimationDef(koopaframeidle);
+		AnimationDef koopaleft = new AnimationDef(koopaframeleft);
+		AnimationDef kooparight = new AnimationDef(gombooframeright);
 
 		// Camera Initialization
 		Camera camera = new Camera(0, 0);
 
-		Enemy enem = new Enemy(enemyPos[0], enemyPos[1], enemySize[0], enemySize[1], enemytex, 100);
+		Enemy gomboo_ar = new Enemy(gombooX, gombooY, enemySize[0], enemySize[1], gomboo, 100);
 
-		ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-		enemies.add(enem);
+		Enemy koopa_ar = new Enemy(koopaX, koopaY, enemySize[0], enemySize[1], gomboo, 100);
+
+		ArrayList<Enemy> arrayGomboo = new ArrayList<Enemy>();
+		arrayGomboo.add(gomboo_ar);
+		ArrayList<Enemy> arraykoopa = new ArrayList<Enemy>();
+		arraykoopa.add(koopa_ar);
 
 		// Bullets ArrayList
 		ArrayList<Bullet> bullets = new ArrayList<Bullet>();
@@ -331,15 +360,15 @@ public class JavaTemplate {
 				for (int i = 0; i < bullets.size(); i++) {
 					Bullet b = bullets.get(i);
 					b.setX(b.getX() + 5);
-					for (int j = 0; j < enemies.size(); j++) {
-						Enemy e = enemies.get(j);
+					for (int j = 0; j < arrayGomboo.size(); j++) {
+						Enemy e = arrayGomboo.get(j);
 						AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(), e.getWidth(), e.getHeight());
 						AABBCamera bulletAABB = new AABBCamera(b.getX(), b.getY(), b.getWidth(), b.getHeight());
 						if (AABBIntersect(enemyAABB, bulletAABB)) {
 							bullets.remove(i);
 							e.setHitpoints(e.getHitpoints() - 50);
 							if (e.getHitpoints() <= 0) {
-								enemies.remove(j);
+								arrayGomboo.remove(j);
 							}
 						}
 					}
@@ -364,12 +393,13 @@ public class JavaTemplate {
 			}
 
 			// ENEMY AI
-			for (Enemy e : enemies) {
+			for (Enemy e : arrayGomboo) {
 				int action = e.Update(deltaTimeMS);
 				float x = e.getX();
 				float y = e.getY();
 				if (action == 1) {
 					if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < (1600 - enemySize[0]))) {
+						// Move towards player
 						x += deltaTimeMS * enemyspeed;
 						if (x < 0)
 							x = 0;
@@ -383,8 +413,13 @@ public class JavaTemplate {
 						}
 					}
 
-					enemyrightanimation.updateSprite(deltaTimeMS);
-					enemyFrame = enemyrightanimation.getCurrentFrame();
+					gombooright.updateSprite(deltaTimeMS);
+					gombooFrame = gombooright.getCurrentFrame();
+					
+//
+//					kooparight.updateSprite(deltaTimeMS);
+//					koopafra = kooparight.getCurrentFrame();
+					
 				} else if (action == 2) {
 					if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < (1600 - enemySize[0]))) {
 						// Move away from player
@@ -400,14 +435,22 @@ public class JavaTemplate {
 							e.setX(x);
 						}
 					}
-					enemyleftanimation.updateSprite(deltaTimeMS);
-					enemyFrame = enemyleftanimation.getCurrentFrame();
+					gombooleft.updateSprite(deltaTimeMS);
+					gombooFrame = gombooleft.getCurrentFrame();
+					
+//
+//					koopaleft.updateSprite(deltaTimeMS);
+//					koopaFrame = koopaleft.getCurrentFrame();
 				} else {
 					if (e.getX() < spritePos[0] && (e.getX() < (1600 - enemySize[0])) && e.getX() > 0) {
 						e.setX(x);
 					}
-					enemyidleanimation.updateSprite(deltaTimeMS);
-					enemyFrame = enemyidleanimation.getCurrentFrame();
+					gombooidle.updateSprite(deltaTimeMS);
+					gombooFrame = gombooidle.getCurrentFrame();
+					
+//					
+//					koopaidle.updateSprite(deltaTimeMS);
+//					koopaFrame = koopaidle.getCurrentFrame();
 				}
 			}
 
@@ -460,13 +503,20 @@ public class JavaTemplate {
 						spriteSize[1]);
 			}
 
-			for (Enemy e : enemies) {
+			for (Enemy e : arrayGomboo) {
 				AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(), e.getWidth(), e.getHeight());
 				if (AABBIntersect(cameraAABB, enemyAABB)) {
-					glDrawSprite(gl, enemyFrame, e.getX() - camera.getX(), e.getY() - camera.getY(), enemySize[0],
+					glDrawSprite(gl, gombooFrame, e.getX() - camera.getX(), e.getY() - camera.getY(), enemySize[0],
 							enemySize[1]);
 
 				}
+			}
+			
+			AABBCamera spriteeAABB = new AABBCamera(koopaX, koopaY, spriteSize[0], spriteSize[1]);
+			AABBCamera cameraaAABB = new AABBCamera(camera.getX(), camera.getY(), windowWidth, windowHeight);
+			if (AABBIntersect(cameraaAABB, spriteeAABB)) {
+				glDrawSprite(gl, koopatex, koopaX - camera.getX(), koopaY - camera.getY(), spriteSize[0],
+						spriteSize[1]);
 			}
 
 			for (Bullet b : bullets) {
