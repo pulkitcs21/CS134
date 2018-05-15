@@ -2,13 +2,11 @@
 import com.jogamp.nativewindow.WindowClosingProtocol;
 
 import com.jogamp.opengl.*;
+import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
 import com.jogamp.newt.opengl.GLWindow;
-import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.GLCapabilities;
-import com.jogamp.opengl.GLException;
-import com.jogamp.opengl.GLProfile;
+
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -74,7 +72,7 @@ public class JavaTemplate {
 	private static boolean grounded = true;
 	private static int jumptime = 0;
 	private static int time;
-	private static float originalY = 0;
+	private static float originalY;
 	
 	// Size of the sprite.
 	private static int[] spriteSize = new int[2];
@@ -128,11 +126,11 @@ public class JavaTemplate {
 		window.getContext().makeCurrent();
 		GL2 gl = window.getGL().getGL2();
 		gl.glViewport(0, 0, windowWidth, windowHeight);
-		gl.glMatrixMode(GL2.GL_PROJECTION);
+		gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
 		gl.glOrtho(0, windowWidth, windowHeight, 0, 0, 100);
-		gl.glEnable(GL2.GL_TEXTURE_2D);
-		gl.glEnable(GL2.GL_BLEND);
-		gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
+		gl.glEnable(GL.GL_TEXTURE_2D);
+		gl.glEnable(GL.GL_BLEND);
+		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
 		// Game initialization goes here.
 
@@ -189,62 +187,62 @@ public class JavaTemplate {
 		drawBackground(tilearray);
 
 		// Mario Animations
-		FrameDef[] idle = { new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), (float) 600),
+		FrameDef[] idle = { new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), 600),
 
 		};
 		
 		
 		FrameDef[] jump= { 
-				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), (float) 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), 100),
 
 		};
-		FrameDef[] moveleft = { new FrameDef(glTexImageTGAFile(gl, "Animations/left.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/left2.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/left3.tga", spriteSize), (float) 100) };
-		FrameDef[] moveright = { new FrameDef(glTexImageTGAFile(gl, "Animations/right.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/right2.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/right3.tga", spriteSize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/right4.tga", spriteSize), (float) 100) };
+		FrameDef[] moveleft = { new FrameDef(glTexImageTGAFile(gl, "Animations/left.tga", spriteSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/left2.tga", spriteSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/left3.tga", spriteSize), 100) };
+		FrameDef[] moveright = { new FrameDef(glTexImageTGAFile(gl, "Animations/right.tga", spriteSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/right2.tga", spriteSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/right3.tga", spriteSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "Animations/right4.tga", spriteSize), 100) };
 
 		// Gomboo Animations
 		FrameDef[] gombooframeidle = {
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy1.tga", enemySize), (float) 600),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy2.tga", enemySize), (float) 600),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy3.tga", enemySize), (float) 600),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy1.tga", enemySize), 600),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy2.tga", enemySize), 600),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy3.tga", enemySize), 600),
 
 		};
 		FrameDef[] gombooframeleft = {
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy1.tga", enemySize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy2.tga", enemySize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy3.tga", enemySize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy4.tga", enemySize), (float) 100) };
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy1.tga", enemySize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy2.tga", enemySize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy3.tga", enemySize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/leftenemy4.tga", enemySize), 100) };
 		FrameDef[] gombooframeright = {
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy1.tga", enemySize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy2.tga", enemySize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy3.tga", enemySize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy4.tga", enemySize), (float) 100),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy5.tga", enemySize), (float) 100) };
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy1.tga", enemySize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy2.tga", enemySize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy3.tga", enemySize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy4.tga", enemySize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/rightenemy5.tga", enemySize), 100) };
 		
 		
 		// Koopa Animations
 				FrameDef[] koopaframeidle = {
-						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle.tga", enemySize), (float) 600),
-						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle2.tga", enemySize), (float) 600)
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle.tga", enemySize), 600),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle2.tga", enemySize), 600)
 				};
 				FrameDef[] koopaframeleft = {
-						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100),
-						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft2.tga", enemySize), (float) 100),
-						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft3.tga", enemySize), (float) 100),
-						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft4.tga", enemySize), (float) 100) };
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft2.tga", enemySize), 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft3.tga", enemySize), 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft4.tga", enemySize), 100) };
 				FrameDef[] koopaframeright = {
-						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100),
-						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100),
-						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100),
-						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100),
-						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), (float) 100) };
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), 100),
+						new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), 100) };
 
 		AnimationDef idleanimation = new AnimationDef(idle);
 		AnimationDef leftanimation = new AnimationDef(moveleft);
@@ -404,36 +402,37 @@ public class JavaTemplate {
 				}
 			}
 
-//			if(grounded) {
-//				yVelocity = 0;
-//			}
-//			
-//			if(grounded && kbState[KeyEvent.VK_UP] ) {
-//				yVelocity = -20;	
-//				grounded = false;
-//			}
-//			
-//			spritePos[1] += (deltaTimeMS/16) * yVelocity;
-//			yVelocity += (deltaTimeMS/16) *gravity;
-//			int upperSpriteIndexX = (int) (spritePos[0] / tileSize[0]);
-//			int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
-//			int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
-//			int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
-//			boxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
-//			boxCollisionDown(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
-//			boxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
+			if(grounded) {
+				yVelocity = 0;
+			}
+			
+			if(grounded && kbState[KeyEvent.VK_P] ) {
+				yVelocity = -20;	
+				grounded = false;
+			}
+			
+			spritePos[1] += (deltaTimeMS/16) * yVelocity;
+			yVelocity += (deltaTimeMS/16) *gravity;
+			
+			int upperSpriteIndexX = (int) (spritePos[0] / tileSize[0]);
+			int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
+			int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
+			int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
+			boxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
+			boxCollisionDown(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
+			boxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY, ta);
 			// ANIMATIONS FOR MARIO
 
 
-			if (isJumping) {
-				jump();
-			}
+//			if (isJumping) {
+//				jump(deltaTimeMS);
+//			}
+			
+			
+			
 			if (kbState[KeyEvent.VK_UP]) {
-				jump();
-			}
-			
-			
-		if (kbState[KeyEvent.VK_DOWN] && spritePos[1] <= ((backgroundDef.getWidth() * 30) - spriteSize[1])) {
+				moveUp(deltaTimeMS, rightanimation, playerspeed, ta);
+			}else if (kbState[KeyEvent.VK_DOWN] && spritePos[1] <= ((backgroundDef.getWidth() * 30) - spriteSize[1])) {
 				moveDown(deltaTimeMS, leftanimation, playerspeed, ta);
 			} else if (kbState[KeyEvent.VK_RIGHT]
 					&& spritePos[0] <= ((backgroundDef.getHeight() * backgroundDef.getWidth()) - spriteSize[0])) {
@@ -455,7 +454,7 @@ public class JavaTemplate {
 			
 			intelligentCamera(camera, deltaTimeMS);
 			gl.glClearColor(0, 0, 0, 1);
-			gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+			gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 
 			// Draw background what is shown
 			int startIndex = (int) (camera.getX() / tileSize[0]);
@@ -833,11 +832,11 @@ public class JavaTemplate {
 			int[] texArray = new int[1];
 			gl.glGenTextures(1, texArray, 0);
 			int tex = texArray[0];
-			gl.glBindTexture(GL2.GL_TEXTURE_2D, tex);
-			gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_RGBA, imageWidth, imageHeight, 0, GL2.GL_BGRA,
-					GL2.GL_UNSIGNED_BYTE, ByteBuffer.wrap(bytes));
-			gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_NEAREST);
-			gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
+			gl.glBindTexture(GL.GL_TEXTURE_2D, tex);
+			gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, imageWidth, imageHeight, 0, GL.GL_BGRA,
+					GL.GL_UNSIGNED_BYTE, ByteBuffer.wrap(bytes));
+			gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_NEAREST);
+			gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_NEAREST);
 
 			out_size[0] = imageWidth;
 			out_size[1] = imageHeight;
@@ -850,23 +849,26 @@ public class JavaTemplate {
 	
 
 	
-	private static void jump() {
+	private static void jump(long deltatime) {
 		if (!isJumping) {
 			isJumping = true;
 			originalY = spritePos[1];
 		}else if (spritePos[1] >= originalY) {
+			
 			isJumping = false;
 			jumptime = 0;
 			return;
 		}
-		spritePos[1] -= 20 + (4 * jumptime);
+		float fixedV = (500 * deltatime / 1000);
+		float acc = ((20 * jumptime) * deltatime/ 1000 );
+		spritePos[1] = spritePos[1] - fixedV + acc;
 		jumptime++;
 	}
 
 	public static void glDrawSprite(GL2 gl, int tex, float x, float y, int w, int h) {
 
-		gl.glBindTexture(GL2.GL_TEXTURE_2D, tex);
-		gl.glBegin(GL2.GL_QUADS);
+		gl.glBindTexture(GL.GL_TEXTURE_2D, tex);
+		gl.glBegin(GL2ES3.GL_QUADS);
 		{
 			gl.glColor3ub((byte) -1, (byte) -1, (byte) -1);
 			gl.glTexCoord2f(0, 1);

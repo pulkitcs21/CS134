@@ -27,18 +27,22 @@ public class AABBCamera extends Camera  {
 		this.width = width;
 	}
 
+	@Override
 	public float getX() {
 		return x;
 	}
 
+	@Override
 	public void setX(float x) {
 		this.x = x;
 	}
 
+	@Override
 	public float getY() {
 		return y;
 	}
 
+	@Override
 	public void setY(float y) {
 		this.y = y;
 	}
