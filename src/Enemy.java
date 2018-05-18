@@ -4,7 +4,8 @@ public class Enemy{
 	private float x,y;
 	private int width, height,currentTexture, hitpoints;
 	long timeMSNextAction = 0;
-	long defaultTimeMS = 1000;
+	long defaultTimeMS = 4000;
+	public long timeNext = 0;
 	int action =0;
 	public Enemy(float x, float y, int width, int height, int currentTexture, int hitpoints) {
 		super();

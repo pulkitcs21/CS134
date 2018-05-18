@@ -14,16 +14,19 @@ public class AnimationDef {
 	}
 	
 
-	public void updateSprite(float deltaTime) {
+	public boolean updateSprite(float deltaTime) {
+		boolean looped = false;
 		timeRemaining -= deltaTime;
 		if (timeRemaining <= 0) {
 			currentFrame++;
 			if (currentFrame > animations.length - 1) {
 				finished = true;
 				currentFrame = 0;
+				looped = true;
 			}
 			timeRemaining += animations[currentFrame].frameTimeSecs;
 		}
+		return looped;
 	}
 	
 	public int getCurrentFrame() {
