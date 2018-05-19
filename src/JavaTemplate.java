@@ -398,7 +398,6 @@ public class JavaTemplate {
 			long currFrameMS = curFrameNS / 1000000;
 			long deltaTimeMS = (curFrameNS - lastFrameNS) / 1000000;
 			long defaultTimeMS = 2000;
-			long timeMSNextAction = 0;
 
 			// Actually, this runs the entire OS message pump.
 			window.display();
@@ -433,7 +432,6 @@ public class JavaTemplate {
 						b.setX(b.getX() - 5);
 					}
 					for (int j = 0; j < Gomboo_list.size(); j++) {
-						Enemy e = Gomboo_list.get(j);
 						AABBCamera spriteAABB = new AABBCamera(spritePos[0], spritePos[1], spriteSize[0],
 								spriteSize[1]);
 						AABBCamera bulletAABB = new AABBCamera(b.getX(), b.getY(), b.getWidth(), b.getHeight());
@@ -564,8 +562,6 @@ public class JavaTemplate {
 					if(getTile == 4) {
 						Tile getTile2 = ta[getTile];
 						if (getTile2.isCollision()) {
-							int position_x = backgroundDef.getWidth() * i;
-							int position_y= backgroundDef.getHeight() * j;
 							coin_flip.updateSprite(deltaTimeMS);
 							coinFrame = coin_flip.getCurrentFrame();
 						}
@@ -652,7 +648,6 @@ public class JavaTemplate {
 			if (!gameOver)
 				drawEnemyBullet(gl, camera, Enemybullets, cameraAABB);
 			
-			int count = 0;
 			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
 				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
 					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
@@ -743,7 +738,6 @@ public class JavaTemplate {
 	public static void kill_mario_goomba(ArrayList<Enemy> Gomboo_list) {
 		for(int i=0; i < Gomboo_list.size(); i++) {
 			Enemy e = Gomboo_list.get(i);
-			AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(), e.getWidth(), e.getHeight());
 			if(spritePos[0] + spriteSize[0] >= e.getX() && ((spritePos[0] + spriteSize[0] + spriteSize[1]) >= (e.getX() + e.getHeight())) 
 					&& spritePos[1] >= e.getY()) {
 				marioHealth -= 200;
@@ -761,7 +755,6 @@ public class JavaTemplate {
 	public static void kill_mario_koopa(ArrayList<Enemy> koopa_list) {
 		for(int i=0; i < koopa_list.size(); i++) {
 			Enemy e = koopa_list.get(i);
-			AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(), e.getWidth(), e.getHeight());
 			if(spritePos[0] + spriteSize[0] >= e.getX() && ((spritePos[0] + spriteSize[0] + spriteSize[1]) >= (e.getX() + e.getHeight())) 
 					&& spritePos[1] >= e.getY()) {
 				marioHealth -= 200;
