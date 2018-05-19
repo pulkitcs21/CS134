@@ -215,9 +215,9 @@ public class JavaTemplate {
 
 		// Gomboo Animations
 		FrameDef[] gombooframeidle = {
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy1.tga", enemySize), 600),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy2.tga", enemySize), 600),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy3.tga", enemySize), 600),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy1.tga", enemySize), 200),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy2.tga", enemySize), 200),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/idleenemy3.tga", enemySize), 200),
 
 		};
 		FrameDef[] gombooframeleft = {
@@ -648,11 +648,32 @@ public class JavaTemplate {
 
 			if (!gameOver)
 				drawEnemyBullet(gl, camera, Enemybullets, cameraAABB);
-			int pos[] = coinAnimation(upperSpriteIndexX, lowerSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexY, ta, coin_flip, deltaTimeMS);
-
-			AABBCamera coinAABB = new AABBCamera(pos[0], pos[1], spriteSize[0], spriteSize[1]);
-			drawCoin(cameraAABB, coinAABB, gl, upperSpriteIndexX, lowerSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexY, ta, coin_flip, deltaTimeMS);
-
+			
+			int count = 0;
+			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
+				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
+					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
+						continue;
+					int getTile = backgroundDef.getTile(i, j);
+					if(getTile == 4) {
+						Tile getTile2 = ta[getTile];
+						int tileY = (tileSize[1] * j);
+						if (getTile2.isCollision() && spritePos[1] >= tileY) {
+							int tileX = (tileSize[0] * i);
+							coin_flip.updateSprite(deltaTimeMS);
+							coinFrame = coin_flip.getCurrentFrame();
+			AABBCamera coinAABB = new AABBCamera(tileX, tileY, spriteSize[0], spriteSize[1]);
+			if (AABBIntersect(cameraAABB, coinAABB) && !gameOver) {
+				glDrawSprite(gl, coinFrame, tileX - camera.getX(), (tileY - tileSize[1] - 30) - camera.getY(), spriteSize[0],
+						spriteSize[1]);
+			}
+						}
+						score += 50;
+					}
+				}
+			}
+			
+			
 			float[] position = { 50, 0 };
 			float[] position2 = { 75, font.lineHeight + 5 };
 			float[] score_position = { 300, 0 };
@@ -663,11 +684,13 @@ public class JavaTemplate {
 			String score_text = Integer.toString(score);
 			drawText(font, score_position2, score_text, gl);
 
+			// MARIO GOES IN HOLES
 			if (spritePos[1] > camera.getY() + windowHeight) {
 					gameOver = true;
 					playerdie=true;
 			}
 
+			// WHEN MARIO DIES
 			if (playerdie) {
 				float[] die_position = { 140, 300 };
 				drawText(font, die_position, "ENTER FOR NEW GAME", gl);
@@ -677,6 +700,8 @@ public class JavaTemplate {
 					
 				}
 			}
+			
+			//RESTART GAME
 			if (kbState[KeyEvent.VK_ENTER]) {
 				playerdie = false;
 				gameOver = false;
@@ -727,10 +752,7 @@ public class JavaTemplate {
 						int position_y= backgroundDef.getHeight() * j;
 						coin_flip.updateSprite(deltaTimeMS);
 						coinFrame = coin_flip.getCurrentFrame();
-						ar[0] = position_x;
-						ar[1] = position_y;
-						System.out.println("AR0" + ar[0]);
-						System.out.println("AR1" +ar[1]);
+						
 					}
 				}
 			}
