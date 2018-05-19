@@ -185,6 +185,7 @@ public class JavaTemplate {
 
 		enemyBulletTex = glTexImageTGAFile(gl, "bullet/enemyBullet.tga", enemyBulletSize);
 		
+		//TODO: Change SpriteSize
 		coinTex = glTexImageTGAFile(gl, "coin/coin1.tga", spriteSize);
 
 		backgroundDef = new BackgroundDef();
@@ -248,7 +249,7 @@ public class JavaTemplate {
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/kooparight4.tga", enemySize), 350) };
 
 		// Coin Animations
-
+		//TODO: Change SpriteSize
 		FrameDef[] coin_idle = { new FrameDef(glTexImageTGAFile(gl, "coin/coin1.tga", spriteSize), 100),
 				new FrameDef(glTexImageTGAFile(gl, "coin/coin2.tga", spriteSize), 100),
 				new FrameDef(glTexImageTGAFile(gl, "coin/coin3.tga", spriteSize), 100),
@@ -736,39 +737,7 @@ public class JavaTemplate {
 		}
 	}
 
-	public static int[] coinAnimation(int upperSpriteIndexX,int lowerSpriteIndexX, int upperSpriteIndexY, int lowerSpriteIndexY, Tile[] ta
-			, AnimationDef coin_flip, long deltaTimeMS) {
-		int[] ar = new int[2];
-		for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
-			for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
-				if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
-					continue;
-				int getTile = backgroundDef.getTile(i, j);
-				if(getTile == 4) {
-					Tile getTile2 = ta[getTile];
-					if (getTile2.isCollision()) {
-						score += 50;
-						int position_x = backgroundDef.getWidth() * i;
-						int position_y= backgroundDef.getHeight() * j;
-						coin_flip.updateSprite(deltaTimeMS);
-						coinFrame = coin_flip.getCurrentFrame();
-						
-					}
-				}
-			}
-		}
-		return ar;
-	}
-	
-	public static void drawCoin(AABBCamera cameraAABB, AABBCamera coinAABB, GL2 gl, int upperSpriteIndexX,int lowerSpriteIndexX, int upperSpriteIndexY, int lowerSpriteIndexY, Tile[] ta
-			, AnimationDef coin_flip, long deltaTimeMS) {
-		int ar[] = coinAnimation(upperSpriteIndexX, lowerSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexY, ta, coin_flip, deltaTimeMS);
-		if (AABBIntersect(cameraAABB, coinAABB) && !gameOver) {
-			
-			glDrawSprite(gl, coinFrame, ar[0] - camera.getX(), ar[1] - camera.getY(), spriteSize[0],
-					spriteSize[1]);
-		}
-	}
+
 	public static void kill_mario_goomba(ArrayList<Enemy> Gomboo_list) {
 		for(int i=0; i < Gomboo_list.size(); i++) {
 			Enemy e = Gomboo_list.get(i);
