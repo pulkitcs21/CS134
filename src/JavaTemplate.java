@@ -81,6 +81,7 @@ public class JavaTemplate {
 	private static int[] enemyBulletSize = new int[2];
 	// Size of the tile
 	private static int[] tileSize = new int[2];
+	private static int[] koopaIdle = new int[2];
 	// =====================================================================================
 
 	private static Camera camera;
@@ -178,7 +179,7 @@ public class JavaTemplate {
 		// Enemy Texture
 		gombootex = glTexImageTGAFile(gl, "enemy/enemy1.tga", enemySize);
 
-		koopatex = glTexImageTGAFile(gl, "enemy/koopaidle.tga", enemySize);
+		koopatex = glTexImageTGAFile(gl, "enemy/koopaidle.tga", koopaIdle);
 
 		// Bullet Texture
 		bullettex = glTexImageTGAFile(gl, "bullet/fire.tga", bulletSize);
@@ -235,8 +236,8 @@ public class JavaTemplate {
 
 		// Koopa Animations
 		FrameDef[] koopaframeidle = {
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle.tga", enemySize), 600),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle2.tga", enemySize), 600) };
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle.tga", koopaIdle), 600),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle2.tga", koopaIdle), 600) };
 		FrameDef[] koopaframeleft = {
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), 350),
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft2.tga", enemySize), 350),
