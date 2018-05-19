@@ -82,6 +82,7 @@ public class JavaTemplate {
 	// Size of the tile
 	private static int[] tileSize = new int[2];
 	private static int[] koopaIdle = new int[2];
+	private static int[] koopaLeftRight = new int[2];
 	// =====================================================================================
 
 	private static Camera camera;
@@ -239,15 +240,15 @@ public class JavaTemplate {
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle.tga", koopaIdle), 600),
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaidle2.tga", koopaIdle), 600) };
 		FrameDef[] koopaframeleft = {
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", enemySize), 350),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft2.tga", enemySize), 350),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft3.tga", enemySize), 350),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft4.tga", enemySize), 350) };
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft.tga", koopaLeftRight), 350),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft2.tga", koopaLeftRight), 350),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft3.tga", koopaLeftRight), 350),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/koopaleft4.tga", koopaLeftRight), 350) };
 		FrameDef[] koopaframeright = {
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/kooparight1.tga", enemySize), 350),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/kooparight2.tga", enemySize), 350),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/kooparight3.tga", enemySize), 350),
-				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/kooparight4.tga", enemySize), 350) };
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/kooparight1.tga", koopaLeftRight), 350),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/kooparight2.tga", koopaLeftRight), 350),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/kooparight3.tga", koopaLeftRight), 350),
+				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/kooparight4.tga", koopaLeftRight), 350) };
 
 		// Coin Animations
 		//TODO: Change SpriteSize

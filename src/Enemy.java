@@ -4,7 +4,7 @@ public class Enemy{
 	private float x,y;
 	private int width, height,currentTexture, hitpoints;
 	long timeMSNextAction = 0;
-	long defaultTimeMS = 2000;
+	long defaultTimeMS = 1000;
 	public long timeNext = 0;
 	int action =0;
 	public Enemy(float x, float y, int width, int height, int currentTexture, int hitpoints) {
@@ -54,11 +54,12 @@ public class Enemy{
 	}
 	
 	public int Update(long deltatime) {
-		int random = new Random().nextInt(6) + 1;
+		int random = new Random().nextInt(2);
 		timeMSNextAction -= deltatime;
 		if (timeMSNextAction <= 0) {
 			timeMSNextAction += defaultTimeMS;
 			// Aggressive
+			System.out.println(random);
 			if (random > 0 && random <= 2) {
 				action = 1;
 			} else if (random > 2 && random <= 4) {
