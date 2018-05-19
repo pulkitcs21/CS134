@@ -54,7 +54,7 @@ public class Enemy{
 	}
 	
 	public int Update(long deltatime) {
-		int random = new Random().nextInt(2);
+		int random = new Random().nextInt(2) + 1;
 		timeMSNextAction -= deltatime;
 		if (timeMSNextAction <= 0) {
 			timeMSNextAction += defaultTimeMS;

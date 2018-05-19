@@ -202,12 +202,6 @@ public class JavaTemplate {
 
 		};
 
-		FrameDef[] jump = { new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "Animations/idle.tga", spriteSize), 100),
-
-		};
 		FrameDef[] moveleft = { new FrameDef(glTexImageTGAFile(gl, "Animations/left.tga", spriteSize), 100),
 				new FrameDef(glTexImageTGAFile(gl, "Animations/left2.tga", spriteSize), 100),
 				new FrameDef(glTexImageTGAFile(gl, "Animations/left3.tga", spriteSize), 100) };
@@ -264,7 +258,6 @@ public class JavaTemplate {
 		AnimationDef idleanimation = new AnimationDef(idle);
 		AnimationDef leftanimation = new AnimationDef(moveleft);
 		AnimationDef rightanimation = new AnimationDef(moveright);
-		AnimationDef jumpanimation = new AnimationDef(jump);
 
 		// ANimationDef for Gomboo
 		AnimationDef gombooidle = new AnimationDef(gombooframeidle);
@@ -777,6 +770,8 @@ public class JavaTemplate {
 			int upperSpriteIndexY = (int) (e.getY() / tileSize[1]);
 			int lowerSpriteIndexX = (int) ((e.getX() + e.getX() - 1) / tileSize[0]);
 			int lowerSpriteIndexY = (int) ((e.getY() + e.getY() - 1) / tileSize[1]);
+			
+		
 			if (action == 1) {
 				// FOLLOW THE MARIO
 				float x = e.getX();
