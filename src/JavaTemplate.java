@@ -31,6 +31,7 @@ public class JavaTemplate {
 	private static boolean playerdie = false;
 	private static boolean gameOver = false;
 	private static int score = 0;
+	private static boolean music = true;
 
 	// =====================================================================================
 
@@ -62,6 +63,7 @@ public class JavaTemplate {
 	private static int enemyBulletTex;
 	private static int coinFrame;
 	private static int coinTex;
+	private static int coinTex2;
 	private static int windowWidth = 800;
 	private static int windowHeight = 600;
 	private static boolean die = false;
@@ -84,6 +86,7 @@ public class JavaTemplate {
 	private static int[] koopaIdle = new int[2];
 	private static int[] koopaLeftRight = new int[2];
 	private static int[] coinSize = new int[2];
+	private static int[] coinSize2 = new int[2];
 	// =====================================================================================
 
 	private static Camera camera;
@@ -158,7 +161,7 @@ public class JavaTemplate {
 		cloud2 = glTexImageTGAFile(gl, "backgroundImages/cloud2.tga", tileSize);
 		stair = glTexImageTGAFile(gl, "backgroundImages/stair.tga", tileSize);
 		stair2 = glTexImageTGAFile(gl, "backgroundImages/stair2.tga", tileSize);
-
+		
 		Tile skyt = new Tile(false, sky);
 		Tile powert = new Tile(true, power);
 		Tile wallt = new Tile(true, wall);
@@ -175,8 +178,9 @@ public class JavaTemplate {
 		Tile cloud2t = new Tile(false, cloud2);
 		Tile stairt = new Tile(true, stair);
 		Tile stair2t = new Tile(true, stair2);
+		
 		Tile[] ta = { platformt, skyt, cloudt, cloud2t, powert, tilet, treet, tree1t, busht, bush1t, wallt, wall1t,
-				wall2t, wall3t, stairt, stair2t };
+				wall2t, wall3t, stairt, stair2t,  };
 
 		// Enemy Texture
 		gombootex = glTexImageTGAFile(gl, "enemy/enemy1.tga", enemySize);
@@ -189,6 +193,7 @@ public class JavaTemplate {
 		enemyBulletTex = glTexImageTGAFile(gl, "bullet/enemyBullet.tga", enemyBulletSize);
 		
 		coinTex = glTexImageTGAFile(gl, "coin/coin1.tga", coinSize);
+		
 
 		backgroundDef = new BackgroundDef();
 
@@ -248,10 +253,10 @@ public class JavaTemplate {
 		//TODO: Change SpriteSize
 		FrameDef[] coin_idle = { new FrameDef(glTexImageTGAFile(gl, "coin/coin1.tga", coinSize), 100),
 				new FrameDef(glTexImageTGAFile(gl, "coin/coin2.tga", coinSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin3.tga", coinSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin4.tga", coinSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin5.tga", coinSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin6.tga", coinSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin3.tga", coinSize2), 100),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin4.tga", coinSize2), 100),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin5.tga", coinSize2), 100),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin6.tga", coinSize2), 100),
 				new FrameDef(glTexImageTGAFile(gl, "coin/coin7.tga", coinSize), 100), };
 
 		// ANimationDef for Mario
@@ -382,6 +387,7 @@ public class JavaTemplate {
 		Sound soundMain = Sound.loadFromFile("sounds/main.wav");
 		Clip bgCLip = soundMain.playLooping();
 		Sound mari_die = Sound.loadFromFile("sounds/mariodie.wav");
+		int x = 0;
 
 		while (!shouldExit) {
 			System.arraycopy(kbState, 0, kbPrevState, 0, kbState.length);
@@ -681,25 +687,25 @@ public class JavaTemplate {
 					playerdie=true;
 					
 			}
+		
 			// WHEN MARIO DIES
 			if (playerdie) {
 				float[] die_position = { 140, 300 };
 				drawText(font, die_position, "ENTER FOR NEW GAME", gl);
 				bgCLip.stop();
-				if (die) {
-					die= false;	
+				if(music) {
+					mari_die.play();
+					music = false;
 				}
-				// THis sound plays everyframe, how do we play it just once????
-				
-				// mari_die.play();
 			}
 			
 			//RESTART GAME
 			if (kbState[KeyEvent.VK_ENTER]) {
 				playerdie = false;
 				gameOver = false;
+				
 				camera = new Camera(0,0);
-				spritePos= new float[] { 400, 510 };
+				spritePos= new float[] { SpritePosX, SpritePosY };
 				Gomboo_list.clear(); // CLEAR GOMBOOS
 				koopa_list.clear(); // CLEAR KOOPA
 				bullets.clear(); // CLEAR BULLETS
@@ -1117,7 +1123,6 @@ public class JavaTemplate {
 				} else if (backgroundDef.getTile(i, j) == 15) {
 					tilearray[j * backgroundDef.getWidth() + i] = stair2;
 				}
-
 			}
 		}
 
