@@ -5,8 +5,11 @@ Making World 1-1 of Mario Using Java and OpenGL
 ---
 # Installing
  This project can be downloaded using clone or by getting the zip file.
+ 
  Make sure that Jogl Files are imported in folder.
+ 
  To run the game, double click on file "MARIO.JAR"
+ 
  Enjoy the game!
 
 ---
@@ -23,6 +26,7 @@ Making World 1-1 of Mario Using Java and OpenGL
 ---
 ## Description
 The goal of this project was to learn game development using Java and OpenGL.
+
 The game I decided to make was a clone of Mario super bros world 1.
 
 ## Goals
@@ -40,4 +44,6 @@ The game I decided to make was a clone of Mario super bros world 1.
   * Add Sound
   
 ## Achievements
- By the end of this course, I was able to create the first world of Mario Super Bro with a bit of changes. Things which I implemnted to make this game are described in goals.
+ By the end of this course, I was able to create the first world of Mario Super Bro with a bit of changes. 
+ 
+ Things which I implemnted to make this game are described in goals.
