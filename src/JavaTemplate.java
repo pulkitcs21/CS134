@@ -24,9 +24,9 @@ public class JavaTemplate {
 	private static boolean kbState[] = new boolean[256];
 
 	// Position of the sprite.
-	static float spritePosX = 0;
-	static float spritePosY = 510;
-	private static float[] spritePos = new float[] { spritePosX, spritePosY };
+	final static float SpritePosX = 0;
+	final static float SpritePosY = 510;
+	private static float[] spritePos = new float[] { SpritePosX, SpritePosY };
 	private static int marioHealth = 200;
 	private static boolean playerdie = false;
 	private static boolean gameOver = false;
@@ -83,6 +83,7 @@ public class JavaTemplate {
 	private static int[] tileSize = new int[2];
 	private static int[] koopaIdle = new int[2];
 	private static int[] koopaLeftRight = new int[2];
+	private static int[] coinSize = new int[2];
 	// =====================================================================================
 
 	private static Camera camera;
@@ -187,8 +188,7 @@ public class JavaTemplate {
 
 		enemyBulletTex = glTexImageTGAFile(gl, "bullet/enemyBullet.tga", enemyBulletSize);
 		
-		//TODO: Change SpriteSize
-		coinTex = glTexImageTGAFile(gl, "coin/coin1.tga", spriteSize);
+		coinTex = glTexImageTGAFile(gl, "coin/coin1.tga", coinSize);
 
 		backgroundDef = new BackgroundDef();
 
@@ -246,13 +246,13 @@ public class JavaTemplate {
 
 		// Coin Animations
 		//TODO: Change SpriteSize
-		FrameDef[] coin_idle = { new FrameDef(glTexImageTGAFile(gl, "coin/coin1.tga", spriteSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin2.tga", spriteSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin3.tga", spriteSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin4.tga", spriteSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin5.tga", spriteSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin6.tga", spriteSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin7.tga", spriteSize), 100), };
+		FrameDef[] coin_idle = { new FrameDef(glTexImageTGAFile(gl, "coin/coin1.tga", coinSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin2.tga", coinSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin3.tga", coinSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin4.tga", coinSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin5.tga", coinSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin6.tga", coinSize), 100),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin7.tga", coinSize), 100), };
 
 		// ANimationDef for Mario
 		AnimationDef idleanimation = new AnimationDef(idle);
@@ -382,7 +382,6 @@ public class JavaTemplate {
 		Sound soundMain = Sound.loadFromFile("sounds/main.wav");
 		Clip bgCLip = soundMain.playLooping();
 		Sound mari_die = Sound.loadFromFile("sounds/mariodie.wav");
-		Clip marioDie = null;
 
 		while (!shouldExit) {
 			System.arraycopy(kbState, 0, kbPrevState, 0, kbState.length);
@@ -563,20 +562,21 @@ public class JavaTemplate {
 			}
 					
 					
-			// IF MARIO JUMPS ON GOMBOO THEY DIE
+			 //IF MARIO JUMPS ON GOMBOO THEY DIE
 			for (int i = 0; i < Gomboo_list.size(); i++) {
 				Enemy e = Gomboo_list.get(i);
 				if (velocity > 0 && e.getY() < spritePos[1] + spriteSize[1]
 						&& spritePos[1] + spriteSize[1] < e.getY() + e.getHeight()) {
 					if (inBetween(e.getX(), spritePos[0], e.getX() + e.getWidth())
 							|| inBetween(e.getX(), spritePos[0] + spriteSize[0], e.getX() + e.getWidth())) {
+						System.out.println(e.getY() + " Sprite" +  spritePos[1]);
 						Gomboo_list.remove(i);
 						i--;
 						score += 50;
 					}
 				}
 			}
-
+//			
 			// IF MARIO JUMPS ON KOOPA THEY DIE
 			for (int i = 0; i < koopa_list.size(); i++) {
 				Enemy e = koopa_list.get(i);
@@ -679,17 +679,19 @@ public class JavaTemplate {
 			if (spritePos[1] > camera.getY() + windowHeight) {
 					gameOver = true;
 					playerdie=true;
+					
 			}
-
 			// WHEN MARIO DIES
 			if (playerdie) {
 				float[] die_position = { 140, 300 };
 				drawText(font, die_position, "ENTER FOR NEW GAME", gl);
 				bgCLip.stop();
 				if (die) {
-					die= false;
-					
+					die= false;	
 				}
+				// THis sound plays everyframe, how do we play it just once????
+				
+				// mari_die.play();
 			}
 			
 			//RESTART GAME
@@ -697,7 +699,7 @@ public class JavaTemplate {
 				playerdie = false;
 				gameOver = false;
 				camera = new Camera(0,0);
-				spritePos= new float[] { spritePosX, spritePosY };
+				spritePos= new float[] { 400, 510 };
 				Gomboo_list.clear(); // CLEAR GOMBOOS
 				koopa_list.clear(); // CLEAR KOOPA
 				bullets.clear(); // CLEAR BULLETS
@@ -754,7 +756,6 @@ public class JavaTemplate {
 				playerdie = true;
 				gameOver = true;
 			}
-			
 			if(spritePos[0] < (e.getX() + e.getWidth()) && spritePos[0] > e.getX() && spritePos[1] >= e.getY()) {
 				marioHealth -= 200;
 				playerdie = true;

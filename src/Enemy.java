@@ -59,7 +59,6 @@ public class Enemy{
 		if (timeMSNextAction <= 0) {
 			timeMSNextAction += defaultTimeMS;
 			// Aggressive
-			System.out.println(random);
 			if (random > 0 && random <= 2) {
 				action = 1;
 			} else if (random > 2 && random <= 4) {
