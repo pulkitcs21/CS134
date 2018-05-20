@@ -5,6 +5,7 @@ Making World 1-1 of Mario Using Java and OpenGL
 ---
 # Installing
  This project can be downloaded using clone or by getting the zip file.
+ Make sure that Jogl Files are imported in folder.
  To run the game, double click on file "MARIO.JAR"
  Enjoy the game!
 
