@@ -57,16 +57,19 @@ public class JavaTemplate {
 	private static int cloud2;
 	private static int platform;
 	private static int sky;
+	private static int flag;
+	private static int flag2;
+
+	
+	
 	private static int gombootex;
 	private static int koopatex;
 	private static int bullettex;
 	private static int enemyBulletTex;
 	private static int coinFrame;
 	private static int coinTex;
-	private static int coinTex2;
 	private static int windowWidth = 800;
 	private static int windowHeight = 600;
-	private static boolean die = false;
 	// =====================================================================================
 	// JUMP
 	private static boolean grounded = true;
@@ -74,7 +77,7 @@ public class JavaTemplate {
 	private static float velocity = 0;
 
 	// =====================================================================================
-	private static int offsetMaxX = 100 * 128 - windowWidth;
+	private static int offsetMaxX = 40 * 140 - 400;
 	private static int offsetMinX = 0;
 	// Size of the sprite.
 	private static int[] spriteSize = new int[2];
@@ -144,6 +147,10 @@ public class JavaTemplate {
 
 		// Game initialization goes here.
 
+
+		flag = glTexImageTGAFile(gl, "backgroundImages/flag.tga", tileSize);
+
+		flag2 = glTexImageTGAFile(gl, "backgroundImages/flag2.tga", tileSize);
 		// Initializing backgrounds
 		sky = glTexImageTGAFile(gl, "backgroundImages/sky.tga", tileSize);
 		power = glTexImageTGAFile(gl, "backgroundImages/power.tga", tileSize);
@@ -161,6 +168,7 @@ public class JavaTemplate {
 		cloud2 = glTexImageTGAFile(gl, "backgroundImages/cloud2.tga", tileSize);
 		stair = glTexImageTGAFile(gl, "backgroundImages/stair.tga", tileSize);
 		stair2 = glTexImageTGAFile(gl, "backgroundImages/stair2.tga", tileSize);
+
 		
 		Tile skyt = new Tile(false, sky);
 		Tile powert = new Tile(true, power);
@@ -178,9 +186,12 @@ public class JavaTemplate {
 		Tile cloud2t = new Tile(false, cloud2);
 		Tile stairt = new Tile(true, stair);
 		Tile stair2t = new Tile(true, stair2);
+		Tile flagt = new Tile(false, flag);
+		Tile flag2t = new Tile(false, flag2);
+		Tile coint = new Tile(false, coinTex);
 		
 		Tile[] ta = { platformt, skyt, cloudt, cloud2t, powert, tilet, treet, tree1t, busht, bush1t, wallt, wall1t,
-				wall2t, wall3t, stairt, stair2t,  };
+				wall2t, wall3t, stairt, stair2t , flagt ,flag2t, coint};
 
 		// Enemy Texture
 		gombootex = glTexImageTGAFile(gl, "enemy/enemy1.tga", enemySize);
@@ -192,7 +203,7 @@ public class JavaTemplate {
 
 		enemyBulletTex = glTexImageTGAFile(gl, "bullet/enemyBullet.tga", enemyBulletSize);
 		
-		coinTex = glTexImageTGAFile(gl, "coin/coin1.tga", coinSize);
+		coinTex =  glTexImageTGAFile(gl, "backgroundImages/coin1.tga", enemySize);
 		
 
 		backgroundDef = new BackgroundDef();
@@ -250,7 +261,6 @@ public class JavaTemplate {
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/kooparight4.tga", koopaLeftRight), 350) };
 
 		// Coin Animations
-		//TODO: Change SpriteSize
 		FrameDef[] coin_idle = { new FrameDef(glTexImageTGAFile(gl, "coin/coin1.tga", coinSize), 100),
 				new FrameDef(glTexImageTGAFile(gl, "coin/coin2.tga", coinSize), 100),
 				new FrameDef(glTexImageTGAFile(gl, "coin/coin3.tga", coinSize2), 100),
@@ -387,7 +397,6 @@ public class JavaTemplate {
 		Sound soundMain = Sound.loadFromFile("sounds/main.wav");
 		Clip bgCLip = soundMain.playLooping();
 		Sound mari_die = Sound.loadFromFile("sounds/mariodie.wav");
-		int x = 0;
 
 		while (!shouldExit) {
 			System.arraycopy(kbState, 0, kbPrevState, 0, kbState.length);
@@ -440,7 +449,6 @@ public class JavaTemplate {
 							marioHealth -= 200;
 							playerdie = true;
 							gameOver = true;
-							die= true;
 						} else if (b.getX() <= camera.getX() + 10 && Enemybullets.size() > 0) {
 							Enemybullets.remove(i);
 							i--;
@@ -487,14 +495,14 @@ public class JavaTemplate {
 			if (kbState[KeyEvent.VK_SPACE] && !kbPrevState[KeyEvent.VK_SPACE]) {
 				bullets.add(new Bullet(spritePos[0], spritePos[1], bulletSize[0], bulletSize[1], bullettex));
 			}
-
+			
 			for (int i = 0; i < Gomboo_list.size(); i++) {
 				Enemy e = Gomboo_list.get(i);
 				if (e.getX() - spritePos[0] < 150) {
 					e.timeNext -= deltaTimeMS;
 					if (e.timeNext <= 0) {
 						e.timeNext += defaultTimeMS;
-						Enemybullets.add(new Bullet(e.getX(), e.getY(), bulletSize[0], bulletSize[1], enemyBulletTex));
+						if(Enemybullets.size() < 1 && Enemybullets.size() >= 0) Enemybullets.add(new Bullet(e.getX(), e.getY(), bulletSize[0], bulletSize[1], enemyBulletTex));
 					}
 				}
 			}
@@ -551,21 +559,7 @@ public class JavaTemplate {
 				}
 			}
 			
-			//PLAY ANIMATION FOR COINS
-			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
-				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
-					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
-						continue;
-					int getTile = backgroundDef.getTile(i, j);
-					if(getTile == 4) {
-						Tile getTile2 = ta[getTile];
-						if (getTile2.isCollision()) {
-							coin_flip.updateSprite(deltaTimeMS);
-							coinFrame = coin_flip.getCurrentFrame();
-						}
-					}
-				}
-			}
+		
 					
 					
 			 //IF MARIO JUMPS ON GOMBOO THEY DIE
@@ -575,14 +569,12 @@ public class JavaTemplate {
 						&& spritePos[1] + spriteSize[1] < e.getY() + e.getHeight()) {
 					if (inBetween(e.getX(), spritePos[0], e.getX() + e.getWidth())
 							|| inBetween(e.getX(), spritePos[0] + spriteSize[0], e.getX() + e.getWidth())) {
-						System.out.println(e.getY() + " Sprite" +  spritePos[1]);
 						Gomboo_list.remove(i);
 						i--;
 						score += 50;
 					}
 				}
-			}
-//			
+			}		
 			// IF MARIO JUMPS ON KOOPA THEY DIE
 			for (int i = 0; i < koopa_list.size(); i++) {
 				Enemy e = koopa_list.get(i);
@@ -656,6 +648,7 @@ public class JavaTemplate {
 						Tile getTile2 = ta[getTile];
 						int tileY = (tileSize[1] * j);
 						if (getTile2.isCollision() && spritePos[1] >= tileY) {
+							score += 50;
 							int tileX = (tileSize[0] * i);
 							coin_flip.updateSprite(deltaTimeMS);
 							coinFrame = coin_flip.getCurrentFrame();
@@ -665,7 +658,6 @@ public class JavaTemplate {
 						spriteSize[1]);
 			}
 						}
-						score += 50;
 					}
 				}
 			}
@@ -771,19 +763,20 @@ public class JavaTemplate {
 	}
 	public static void koopaAI(ArrayList<Enemy> koopa_list, long deltaTimeMS, float enemyspeed,
 			AnimationDef kooparight, AnimationDef koopaleft, AnimationDef koopaidle, Tile[] ta) {
+		
+		
 		for (Enemy e : koopa_list) {
 			int action = e.Update(deltaTimeMS);
 			int upperSpriteIndexX = (int) (e.getX() / tileSize[0]);
 			int upperSpriteIndexY = (int) (e.getY() / tileSize[1]);
 			int lowerSpriteIndexX = (int) ((e.getX() + e.getX() - 1) / tileSize[0]);
 			int lowerSpriteIndexY = (int) ((e.getY() + e.getY() - 1) / tileSize[1]);
-			
-		
+
 			if (action == 1) {
 				// FOLLOW THE MARIO
 				float x = e.getX();
 				// ENEMY IS ON THE LEFT
-				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < (1600 - enemySize[0]))) {
+				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))) {
 					// MOVE RIGHT
 					x += deltaTimeMS * enemyspeed;
 					if (x < 0)
@@ -796,7 +789,7 @@ public class JavaTemplate {
 				}
 				// ENEMY IS ON THE RIGHT
 				// MOVE LEFT
-				if (e.getX() > spritePos[0] && (e.getX() < (1600 - enemySize[0]))) {
+				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
 					x -= deltaTimeMS * enemyspeed;
 					if (x < 0)
 						x = 0;
@@ -809,7 +802,7 @@ public class JavaTemplate {
 
 			} else if (action == 2) {
 				// ENEMY IS ON THE LEFT
-				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < (1600 - enemySize[0]))) {
+				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
 					// IF ENEMY TOO CLOSE, MOVE AWAY TO LEFT
 					if (spritePos[0] - e.getX() < 20) {
 						e.setX(e.getX() - deltaTimeMS * enemyspeed);
@@ -821,7 +814,7 @@ public class JavaTemplate {
 				}
 
 				// ENEMY IS ON RIGHT
-				if (e.getX() > spritePos[0] && (e.getX() < (1600 - enemySize[0]))) {
+				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
 					if (e.getX() - spritePos[0] < 20) {
 						// MOVE TO RIGHT
 						e.setX(e.getX() + deltaTimeMS * enemyspeed);
@@ -832,7 +825,7 @@ public class JavaTemplate {
 					}
 				}
 			} else {
-				if (e.getX() < spritePos[0] && (e.getX() < (1600 - enemySize[0])) && e.getX() > 0) {
+				if (e.getX() < spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0])) && e.getX() > 0) {
 					e.setX(e.getX());
 				}
 				koopaidle.updateSprite(deltaTimeMS);
@@ -850,11 +843,16 @@ public class JavaTemplate {
 			int lowerSpriteIndexX = (int) ((e.getX() + e.getX() - 1) / tileSize[0]);
 			int lowerSpriteIndexY = (int) ((e.getY() + e.getY() - 1) / tileSize[1]);
 
+			//TODO: TO get the tile on which enemy is
+			// Check if the tile on right / left is a hole
+			// Don't Update the AI
+			
+			
 			if (action == 1) {
 				// FOLLOW THE MARIO
 				float x = e.getX();
 				// ENEMY IS ON THE LEFT
-				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < (1600 - enemySize[0]))) {
+				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
 					// MOVE RIGHT
 					x += deltaTimeMS * enemyspeed;
 					if (x < 0)
@@ -867,7 +865,7 @@ public class JavaTemplate {
 				}
 				// ENEMY IS ON THE RIGHT
 				// MOVE LEFT
-				if (e.getX() > spritePos[0] && (e.getX() < (1600 - enemySize[0]))) {
+				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
 					x -= deltaTimeMS * enemyspeed;
 					if (x < 0)
 						x = 0;
@@ -880,7 +878,7 @@ public class JavaTemplate {
 
 			} else if (action == 2) {
 				// ENEMY IS ON THE LEFT
-				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < (1600 - enemySize[0]))) {
+				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
 					// IF ENEMY TOO CLOSE, MOVE AWAY TO LEFT
 					if (spritePos[0] - e.getX() < 20) {
 						e.setX(e.getX() - deltaTimeMS * enemyspeed);
@@ -892,7 +890,7 @@ public class JavaTemplate {
 				}
 
 				// ENEMY IS ON RIGHT
-				if (e.getX() > spritePos[0] && (e.getX() < (1600 - enemySize[0]))) {
+				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
 					if (e.getX() - spritePos[0] < 20) {
 						// MOVE TO RIGHT
 						e.setX(e.getX() + deltaTimeMS * enemyspeed);
@@ -903,7 +901,7 @@ public class JavaTemplate {
 					}
 				}
 			} else {
-				if (e.getX() < spritePos[0] && (e.getX() < (1600 - enemySize[0])) && e.getX() > 0) {
+				if (e.getX() < spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0])) && e.getX() > 0) {
 					e.setX(e.getX());
 				}
 				gombooidle.updateSprite(deltaTimeMS);
@@ -1122,6 +1120,12 @@ public class JavaTemplate {
 					tilearray[j * backgroundDef.getWidth() + i] = stair;
 				} else if (backgroundDef.getTile(i, j) == 15) {
 					tilearray[j * backgroundDef.getWidth() + i] = stair2;
+				}else if (backgroundDef.getTile(i, j) == 16) {
+					tilearray[j * backgroundDef.getWidth() + i] = flag;
+				}else if (backgroundDef.getTile(i, j) == 17) {
+					tilearray[j * backgroundDef.getWidth() + i] = flag2;
+				}else if (backgroundDef.getTile(i, j) == 18) {
+					tilearray[j * backgroundDef.getWidth() + i] = coinTex;
 				}
 			}
 		}
