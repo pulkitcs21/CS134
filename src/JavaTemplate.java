@@ -39,6 +39,8 @@ public class JavaTemplate {
 	private static int currFrame;
 	private static int gombooFrame;
 	private static int koopaFrame;
+	private static int coinFrame;
+	private static int coinFrame2;
 	// =====================================================================================
 	// TEXTURE FOR SPRITE.
 	private static int cloud;
@@ -66,7 +68,6 @@ public class JavaTemplate {
 	private static int koopatex;
 	private static int bullettex;
 	private static int enemyBulletTex;
-	private static int coinFrame;
 	private static int coinTex;
 	private static int windowWidth = 800;
 	private static int windowHeight = 600;
@@ -261,13 +262,13 @@ public class JavaTemplate {
 				new FrameDef(glTexImageTGAFile(gl, "enemyAnimations/kooparight4.tga", koopaLeftRight), 350) };
 
 		// Coin Animations
-		FrameDef[] coin_idle = { new FrameDef(glTexImageTGAFile(gl, "coin/coin1.tga", coinSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin2.tga", coinSize), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin3.tga", coinSize2), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin4.tga", coinSize2), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin5.tga", coinSize2), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin6.tga", coinSize2), 100),
-				new FrameDef(glTexImageTGAFile(gl, "coin/coin7.tga", coinSize), 100), };
+		FrameDef[] coin_idle = { new FrameDef(glTexImageTGAFile(gl, "coin/coin1.tga", coinSize), 400),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin2.tga", coinSize), 400),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin3.tga", coinSize2), 400),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin4.tga", coinSize2), 400),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin5.tga", coinSize2), 400),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin6.tga", coinSize2), 400),
+				new FrameDef(glTexImageTGAFile(gl, "coin/coin7.tga", coinSize), 400), };
 
 		// ANimationDef for Mario
 		AnimationDef idleanimation = new AnimationDef(idle);
@@ -289,6 +290,50 @@ public class JavaTemplate {
 
 		// Camera Initialization
 		 camera = new Camera(0, 0);
+		 
+		 
+
+		ArrayList<Coin> coin_list = new ArrayList<Coin>();
+		Coin c1 = new Coin(300,535, coinSize[0], coinSize[1], coinTex);
+		Coin c2 = new Coin(600,535, coinSize[0], coinSize[1], coinTex);
+		Coin c3 = new Coin(680,420, coinSize[0], coinSize[1], coinTex);
+		Coin c4 = new Coin(920,535, coinSize[0], coinSize[1], coinTex);
+		Coin c5 = new Coin(1200,535, coinSize[0], coinSize[1], coinTex);
+		Coin c6 = new Coin(1110,380, coinSize[0], coinSize[1], coinTex);
+		Coin c7 = new Coin(1200,265, coinSize[0], coinSize[1], coinTex);
+		Coin c8 = new Coin(1240,265, coinSize[0], coinSize[1], coinTex);
+		Coin c9 = new Coin(1280,265, coinSize[0], coinSize[1], coinTex);
+		Coin c10 = new Coin(1320,265, coinSize[0], coinSize[1], coinTex);
+		
+		Coin c11 = new Coin(1520,535, coinSize[0], coinSize[1], coinTex);
+		Coin c12 = new Coin(2280,380, coinSize[0], coinSize[1], coinTex);
+		
+		Coin c13 = new Coin(2440,260, coinSize[0], coinSize[1], coinTex);
+		Coin c14 = new Coin(2480,260, coinSize[0], coinSize[1], coinTex);
+		Coin c15 = new Coin(2520,260, coinSize[0], coinSize[1], coinTex);
+		Coin c16 = new Coin(1720,535, coinSize[0], coinSize[1], coinTex);
+		
+		coin_list.add(new Coin(300,535, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(600,535, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(680,420, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(920,535, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(1200,535, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(1110,380, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(c7);
+		coin_list.add(c8);
+		coin_list.add(c9);
+		coin_list.add(c10);
+		coin_list.add(c11);
+		coin_list.add(c12);
+		coin_list.add(c13);
+		coin_list.add(c14);
+		coin_list.add(c15);
+		coin_list.add(c16);
+		
+		
+		 
+		 
+		 
 
 		ArrayList<Enemy> Gomboo_list = new ArrayList<Enemy>();
 		Enemy e1 = new Enemy(400, 510, enemySize[0], enemySize[1], gombootex, 100);
@@ -529,6 +574,8 @@ public class JavaTemplate {
 			int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
 			int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
 			int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
+			
+			
 
 			// COLLISION RESOLUTION WHEN JUMPS
 			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
@@ -540,6 +587,8 @@ public class JavaTemplate {
 					if (getTile2.isCollision()) {
 						int tileX = (tileSize[0] * i);
 						int tileY = (tileSize[1] * j);
+						System.out.println(tileX);
+						System.out.println(tileY);
 						AABBCamera spriteAABB = new AABBCamera(spritePos[0], spritePos[1], spriteSize[0],
 								spriteSize[1]);
 						AABBCamera tileAABB = new AABBCamera(tileX, tileY, tileSize[0], tileSize[1]);
@@ -639,6 +688,13 @@ public class JavaTemplate {
 			if (!gameOver)
 				drawEnemyBullet(gl, camera, Enemybullets, cameraAABB);
 			
+			if (!gameOver) {
+				coin_flip.updateSprite(deltaTimeMS);
+				coinFrame = coin_flip.getCurrentFrame();
+				drawCoin(gl, coin_list, cameraAABB, cameraAABB);
+			}
+				
+			// COIN ANIMATION
 			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
 				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
 					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
@@ -649,6 +705,8 @@ public class JavaTemplate {
 						int tileY = (tileSize[1] * j);
 						if (getTile2.isCollision() && spritePos[1] >= tileY) {
 							score += 50;
+							backgroundDef.setTile(i, j, 5);
+							drawBackground(startIndex, endIndex, startY, endY, tilearray, gl, cameraAABB);
 							int tileX = (tileSize[0] * i);
 							coin_flip.updateSprite(deltaTimeMS);
 							coinFrame = coin_flip.getCurrentFrame();
@@ -661,6 +719,7 @@ public class JavaTemplate {
 					}
 				}
 			}
+			
 			
 			
 			float[] position = { 50, 0 };
@@ -726,7 +785,6 @@ public class JavaTemplate {
 			}
 		}
 	}
-
 
 	public static void kill_mario_goomba(ArrayList<Enemy> Gomboo_list) {
 		for(int i=0; i < Gomboo_list.size(); i++) {
@@ -942,6 +1000,16 @@ public class JavaTemplate {
 		}
 	}
 
+	public static void drawCoin(GL2 gl, ArrayList<Coin> coin_list, Camera camera, AABBCamera cameraAABB) {
+			for (Coin c : coin_list) {
+				AABBCamera enemyAABB = new AABBCamera(c.getX(), c.getY(), c.getWidth(), c.getHeight());
+				if (AABBIntersect(cameraAABB, enemyAABB)) {
+					glDrawSprite(gl, coinFrame, c.getX() - camera.getX(), c.getY() - camera.getY(), coinSize[0],
+							coinSize[1]);
+
+				}
+			}
+	}
 	public static void drawGomboo(GL2 gl, ArrayList<Enemy> arrayGomboo, Camera camera, AABBCamera cameraAABB) {
 		for (Enemy e : arrayGomboo) {
 			AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(), e.getWidth(), e.getHeight());
