@@ -420,6 +420,9 @@ public class JavaTemplate {
 		Sound mari_die = Sound.loadFromFile("sounds/mariodie.wav");
 		Sound coin_sound = Sound.loadFromFile("sounds/coin.wav");
 		Sound mario_jump = Sound.loadFromFile("sounds/jump.wav");
+		Sound brick = Sound.loadFromFile("sounds/brick.wav");
+		
+		
 		while (!shouldExit) {
 			System.arraycopy(kbState, 0, kbPrevState, 0, kbState.length);
 			lastFrameNS = curFrameNS;
@@ -669,7 +672,9 @@ public class JavaTemplate {
 				coinFrame = coin_flip.getCurrentFrame();
 				drawCoin(gl, coin_list, cameraAABB, cameraAABB);
 			}
-				
+
+			
+			
 			// COIN ANIMATION
 			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
 				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
