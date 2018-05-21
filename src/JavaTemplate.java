@@ -561,8 +561,9 @@ public class JavaTemplate {
 			// COLLISION RESOLUTION WHEN JUMPS
 			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
 				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
-					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
+					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize() || j * backgroundDef.getWidth() + i <0)
 						continue;
+					System.out.println(backgroundDef.getTileSize());
 					int getTile = backgroundDef.getTile(i, j);
 					Tile getTile2 = ta[getTile];
 					if (getTile2.isCollision()) {
@@ -678,7 +679,7 @@ public class JavaTemplate {
 			// COIN ANIMATION
 			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
 				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
-					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
+					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize()|| j * backgroundDef.getWidth() + i < 0)
 						continue;
 					int getTile = backgroundDef.getTile(i, j);
 					if(getTile == 4) {
@@ -708,7 +709,7 @@ public class JavaTemplate {
 			// WON THE GAME
 			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
 				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
-					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
+					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize() || j * backgroundDef.getWidth() + i < 0)
 						continue;
 					int getTile = backgroundDef.getTile(i, j);
 					if(getTile == 16 || (getTile == 17)) {
@@ -752,6 +753,7 @@ public class JavaTemplate {
 			if (kbState[KeyEvent.VK_ENTER]) {
 				playerdie = false;
 				gameOver = false;
+				music = true;
 				
 				camera = new Camera(0,0);
 				spritePos= new float[] { SpritePosX, SpritePosY };
@@ -795,7 +797,9 @@ public class JavaTemplate {
 				coin_list.add(new Coin(2480,260, coinSize[0], coinSize[1], coinTex));
 				coin_list.add(new Coin(2520,260, coinSize[0], coinSize[1], coinTex));
 				coin_list.add(new Coin(2440,260, coinSize[0], coinSize[1], coinTex));
-
+				
+				bgCLip.stop();
+				bgCLip = soundMain.playLooping();
 			}
 		}
 	}
