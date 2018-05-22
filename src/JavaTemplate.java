@@ -310,7 +310,6 @@ public class JavaTemplate {
 		
 
 		Gomboo_list.add(new Enemy(400, 510, enemySize[0], enemySize[1], gombootex, 100));
-		Gomboo_list.add(new Enemy(700, 510, enemySize[0], enemySize[1], gombootex, 100));
 		Gomboo_list.add(new Enemy(1100, 510, enemySize[0], enemySize[1], gombootex, 100));
 		Gomboo_list.add(new Enemy(1600, 510, enemySize[0], enemySize[1], gombootex, 100));
 		Gomboo_list.add(new Enemy(2100, 510, enemySize[0], enemySize[1], gombootex, 100));
@@ -322,18 +321,11 @@ public class JavaTemplate {
 		Gomboo_list.add(new Enemy(4500, 510, enemySize[0], enemySize[1], gombootex, 100));
 		Gomboo_list.add(new Enemy(5200, 510, enemySize[0], enemySize[1], gombootex, 100));
 		Gomboo_list.add(new Enemy(1150, 510, enemySize[0], enemySize[1], gombootex, 100));
-		Gomboo_list.add(new Enemy(2140, 510, enemySize[0], enemySize[1], gombootex, 100));
 		Gomboo_list.add(new Enemy(3320, 510, enemySize[0], enemySize[1], gombootex, 100));
 		Gomboo_list.add(new Enemy(4220, 510, enemySize[0], enemySize[1], gombootex, 100));
 		
 
 		ArrayList<Enemy> koopa_list = new ArrayList<Enemy>();
-		Enemy e17 = new Enemy(480, 510, enemySize[0], enemySize[1], koopatex, 100);
-		Enemy e18 = new Enemy(800, 510, enemySize[0], enemySize[1], koopatex, 100);
-		Enemy e19 = new Enemy(1200, 510, enemySize[0], enemySize[1], koopatex, 100);
-		Enemy e20 = new Enemy(1600, 510, enemySize[0], enemySize[1], koopatex, 100);
-		Enemy e21 = new Enemy(2200, 510, enemySize[0], enemySize[1], koopatex, 100);
-		Enemy e22 = new Enemy(2400, 510, enemySize[0], enemySize[1], koopatex, 100);
 
 		koopa_list.add(new Enemy(480, 510, enemySize[0], enemySize[1], koopatex, 100));
 		koopa_list.add(new Enemy(800, 510, enemySize[0], enemySize[1], koopatex, 100));
@@ -749,7 +741,6 @@ public class JavaTemplate {
 				score = 0;
 				
 				Gomboo_list.add(new Enemy(400, 510, enemySize[0], enemySize[1], gombootex, 100));
-				Gomboo_list.add(new Enemy(700, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(1100, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(1600, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(2100, 510, enemySize[0], enemySize[1], gombootex, 100));
@@ -761,7 +752,6 @@ public class JavaTemplate {
 				Gomboo_list.add(new Enemy(4500, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(5200, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(1150, 510, enemySize[0], enemySize[1], gombootex, 100));
-				Gomboo_list.add(new Enemy(2140, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(3320, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(4220, 510, enemySize[0], enemySize[1], gombootex, 100));
 
