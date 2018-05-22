@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.sound.sampled.Clip;
 
+
 public class JavaTemplate {
 	// Set this to true to make the game loop exit.
 	private static boolean shouldExit;
@@ -32,6 +33,7 @@ public class JavaTemplate {
 	private static boolean gameOver = false;
 	private static int score = 0;
 	private static boolean music = true;
+	private static boolean hole = false;
 
 	// =====================================================================================
 
@@ -62,8 +64,6 @@ public class JavaTemplate {
 	private static int flag;
 	private static int flag2;
 
-	
-	
 	private static int gombootex;
 	private static int koopatex;
 	private static int bullettex;
@@ -94,7 +94,8 @@ public class JavaTemplate {
 	// =====================================================================================
 
 	private static Camera camera;
-	
+	private static float target = spritePos[0];
+
 	// Making Background declarations
 	private static BackgroundDef backgroundDef;
 
@@ -148,7 +149,6 @@ public class JavaTemplate {
 
 		// Game initialization goes here.
 
-
 		flag = glTexImageTGAFile(gl, "backgroundImages/flag.tga", tileSize);
 
 		flag2 = glTexImageTGAFile(gl, "backgroundImages/flag2.tga", tileSize);
@@ -170,7 +170,6 @@ public class JavaTemplate {
 		stair = glTexImageTGAFile(gl, "backgroundImages/stair.tga", tileSize);
 		stair2 = glTexImageTGAFile(gl, "backgroundImages/stair2.tga", tileSize);
 
-		
 		Tile skyt = new Tile(false, sky);
 		Tile powert = new Tile(true, power);
 		Tile wallt = new Tile(true, wall);
@@ -190,9 +189,9 @@ public class JavaTemplate {
 		Tile flagt = new Tile(true, flag);
 		Tile flag2t = new Tile(true, flag2);
 		Tile coint = new Tile(false, coinTex);
-		
+
 		Tile[] ta = { platformt, skyt, cloudt, cloud2t, powert, tilet, treet, tree1t, busht, bush1t, wallt, wall1t,
-				wall2t, wall3t, stairt, stair2t , flagt ,flag2t, coint};
+				wall2t, wall3t, stairt, stair2t, flagt, flag2t, coint };
 
 		// Enemy Texture
 		gombootex = glTexImageTGAFile(gl, "enemy/enemy1.tga", enemySize);
@@ -203,9 +202,8 @@ public class JavaTemplate {
 		bullettex = glTexImageTGAFile(gl, "bullet/fire.tga", bulletSize);
 
 		enemyBulletTex = glTexImageTGAFile(gl, "bullet/enemyBullet.tga", enemyBulletSize);
-		
-		coinTex =  glTexImageTGAFile(gl, "backgroundImages/coin1.tga", enemySize);
-		
+
+		coinTex = glTexImageTGAFile(gl, "backgroundImages/coin1.tga", enemySize);
 
 		backgroundDef = new BackgroundDef();
 
@@ -289,60 +287,45 @@ public class JavaTemplate {
 		AnimationDef coin_flip = new AnimationDef(coin_idle);
 
 		// Camera Initialization
-		 camera = new Camera(0, 0);
-		 
-		 
+		camera = new Camera(0, 0);
 
-		ArrayList<Coin> coin_list = new ArrayList<Coin>();	
-		coin_list.add(new Coin(300,535, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(600,535, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(680,420, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(920,535, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(1200,535, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(1110,380, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(1240,265, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(1280,265, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(1320,265, coinSize[0], coinSize[1], coinTex));
-		coin_list.add( new Coin(1520,535, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(2280,380, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(2440,260, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(2480,260, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(2520,260, coinSize[0], coinSize[1], coinTex));
-		coin_list.add(new Coin(2440,260, coinSize[0], coinSize[1], coinTex));
-		
+		ArrayList<Coin> coin_list = new ArrayList<Coin>();
+		coin_list.add(new Coin(300, 535, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(600, 535, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(680, 420, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(920, 535, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(1200, 535, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(1110, 380, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(1240, 265, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(1280, 265, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(1320, 265, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(1520, 535, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(2280, 380, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(2440, 260, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(2480, 260, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(2520, 260, coinSize[0], coinSize[1], coinTex));
+		coin_list.add(new Coin(2440, 260, coinSize[0], coinSize[1], coinTex));
 
 		ArrayList<Enemy> Gomboo_list = new ArrayList<Enemy>();
-		Enemy e1 = new Enemy(400, 510, enemySize[0], enemySize[1], gombootex, 100);
-		// Enemy e2 = new Enemy(420, 510, enemySize[0], enemySize[1], gombootex, 100);
-		Enemy e3 = new Enemy(1100, 510, enemySize[0], enemySize[1], gombootex, 100);
-		// Enemy e4 = new Enemy(1120, 510, enemySize[0], enemySize[1], gombootex, 100);
-		Enemy e5 = new Enemy(1600, 510, enemySize[0], enemySize[1], gombootex, 100);
-		Enemy e7 = new Enemy(2100, 510, enemySize[0], enemySize[1], gombootex, 100);
-		// Enemy e8 = new Enemy(2120, 510, enemySize[0], enemySize[1], gombootex, 100);
-		Enemy e12 = new Enemy(2800, 510, enemySize[0], enemySize[1], gombootex, 100);
-		Enemy e13 = new Enemy(3050, 510, enemySize[0], enemySize[1], gombootex, 100);
-		Enemy e9 = new Enemy(3300, 510, enemySize[0], enemySize[1], gombootex, 100);
-		Enemy e10 = new Enemy(3800, 510, enemySize[0], enemySize[1], gombootex, 100);
-		Enemy e11 = new Enemy(4200, 510, enemySize[0], enemySize[1], gombootex, 100);
-		Enemy e14 = new Enemy(4500, 510, enemySize[0], enemySize[1], gombootex, 100);
-		Enemy e15 = new Enemy(4520, 510, enemySize[0], enemySize[1], gombootex, 100);
-		Enemy e16 = new Enemy(5200, 510, enemySize[0], enemySize[1], gombootex, 100);
+		
 
-		Gomboo_list.add(e1);
-		// Gomboo_list.add(e2);
-		Gomboo_list.add(e3);
-		// Gomboo_list.add(e4);
-		Gomboo_list.add(e5);
-		Gomboo_list.add(e7);
-		// Gomboo_list.add(e8);
-		Gomboo_list.add(e9);
-		Gomboo_list.add(e10);
-		Gomboo_list.add(e11);
-		Gomboo_list.add(e12);
-		Gomboo_list.add(e13);
-		Gomboo_list.add(e14);
-		Gomboo_list.add(e15);
-		Gomboo_list.add(e16);
+		Gomboo_list.add(new Enemy(400, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(700, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(1100, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(1600, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(2100, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(2800, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(3050, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(3300, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(3800, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(4200, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(4500, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(5200, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(1150, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(2140, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(3320, 510, enemySize[0], enemySize[1], gombootex, 100));
+		Gomboo_list.add(new Enemy(4220, 510, enemySize[0], enemySize[1], gombootex, 100));
+		
 
 		ArrayList<Enemy> koopa_list = new ArrayList<Enemy>();
 		Enemy e17 = new Enemy(480, 510, enemySize[0], enemySize[1], koopatex, 100);
@@ -352,12 +335,16 @@ public class JavaTemplate {
 		Enemy e21 = new Enemy(2200, 510, enemySize[0], enemySize[1], koopatex, 100);
 		Enemy e22 = new Enemy(2400, 510, enemySize[0], enemySize[1], koopatex, 100);
 
-		koopa_list.add(e17);
-		koopa_list.add(e18);
-		koopa_list.add(e19);
-		koopa_list.add(e20);
-		koopa_list.add(e21);
-		koopa_list.add(e22);
+		koopa_list.add(new Enemy(480, 510, enemySize[0], enemySize[1], koopatex, 100));
+		koopa_list.add(new Enemy(800, 510, enemySize[0], enemySize[1], koopatex, 100));
+		koopa_list.add(new Enemy(1200, 510, enemySize[0], enemySize[1], koopatex, 100));
+		koopa_list.add(new Enemy(1600, 510, enemySize[0], enemySize[1], koopatex, 100));
+		koopa_list.add(new Enemy(2200, 510, enemySize[0], enemySize[1], koopatex, 100));
+		koopa_list.add(new Enemy(2400, 510, enemySize[0], enemySize[1], koopatex, 100));
+		koopa_list.add(new Enemy(3200, 510, enemySize[0], enemySize[1], koopatex, 100));
+		koopa_list.add(new Enemy(3600, 510, enemySize[0], enemySize[1], koopatex, 100));
+		koopa_list.add(new Enemy(4400, 510, enemySize[0], enemySize[1], koopatex, 100));
+		
 
 		// Bullets ArrayList
 		ArrayList<Bullet> bullets = new ArrayList<Bullet>();
@@ -421,8 +408,7 @@ public class JavaTemplate {
 		Sound coin_sound = Sound.loadFromFile("sounds/coin.wav");
 		Sound mario_jump = Sound.loadFromFile("sounds/jump.wav");
 		Sound brick = Sound.loadFromFile("sounds/brick.wav");
-		
-		
+
 		while (!shouldExit) {
 			System.arraycopy(kbState, 0, kbPrevState, 0, kbState.length);
 			lastFrameNS = curFrameNS;
@@ -470,7 +456,7 @@ public class JavaTemplate {
 						if (AABBIntersect(spriteAABB, bulletAABB) && Enemybullets.size() > 0) {
 							Enemybullets.remove(i);
 							i--;
-							
+
 							marioHealth -= 200;
 							playerdie = true;
 							gameOver = true;
@@ -520,14 +506,16 @@ public class JavaTemplate {
 			if (kbState[KeyEvent.VK_SPACE] && !kbPrevState[KeyEvent.VK_SPACE]) {
 				bullets.add(new Bullet(spritePos[0], spritePos[1], bulletSize[0], bulletSize[1], bullettex));
 			}
-			
+
 			for (int i = 0; i < Gomboo_list.size(); i++) {
 				Enemy e = Gomboo_list.get(i);
 				if (e.getX() - spritePos[0] < 150) {
 					e.timeNext -= deltaTimeMS;
 					if (e.timeNext <= 0) {
 						e.timeNext += defaultTimeMS;
-						if(Enemybullets.size() < 1 && Enemybullets.size() >= 0) Enemybullets.add(new Bullet(e.getX(), e.getY(), bulletSize[0], bulletSize[1], enemyBulletTex));
+						if (Enemybullets.size() < 1 && Enemybullets.size() >= 0)
+							Enemybullets
+									.add(new Bullet(e.getX(), e.getY(), bulletSize[0], bulletSize[1], enemyBulletTex));
 					}
 				}
 			}
@@ -550,20 +538,17 @@ public class JavaTemplate {
 			velocity += (deltaTimeMS / 16) * gravity;
 
 			grounded = false;
-	
+
 			int upperSpriteIndexX = (int) (spritePos[0] / tileSize[0]);
 			int upperSpriteIndexY = (int) (spritePos[1] / tileSize[1]);
 			int lowerSpriteIndexX = (int) ((spritePos[0] + spriteSize[0] - 1) / tileSize[0]);
 			int lowerSpriteIndexY = (int) ((spritePos[1] + spriteSize[1] - 1) / tileSize[1]);
-			
-			
 
 			// COLLISION RESOLUTION WHEN JUMPS
 			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
 				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
-					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize() || j * backgroundDef.getWidth() + i <0)
+					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
 						continue;
-					System.out.println(backgroundDef.getTileSize());
 					int getTile = backgroundDef.getTile(i, j);
 					Tile getTile2 = ta[getTile];
 					if (getTile2.isCollision()) {
@@ -587,11 +572,8 @@ public class JavaTemplate {
 					}
 				}
 			}
-			
-		
-					
-					
-			 //IF MARIO JUMPS ON GOMBOO THEY DIE
+
+			// IF MARIO JUMPS ON GOMBOO THEY DIE
 			for (int i = 0; i < Gomboo_list.size(); i++) {
 				Enemy e = Gomboo_list.get(i);
 				if (velocity > 0 && e.getY() < spritePos[1] + spriteSize[1]
@@ -603,7 +585,7 @@ public class JavaTemplate {
 						score += 50;
 					}
 				}
-			}		
+			}
 			// IF MARIO JUMPS ON KOOPA THEY DIE
 			for (int i = 0; i < koopa_list.size(); i++) {
 				Enemy e = koopa_list.get(i);
@@ -647,14 +629,15 @@ public class JavaTemplate {
 			// SPRITE COLLISION
 			AABBCamera spriteAABB = new AABBCamera(spritePos[0], spritePos[1], spriteSize[0], spriteSize[1]);
 			AABBCamera cameraAABB = new AABBCamera(camera.getX(), camera.getY(), windowWidth, windowHeight);
-			
-			//KILL MARIO IF HE TOUCHES GOMBOO
+
+			// KILL MARIO IF HE TOUCHES GOMBOO
 			kill_mario_goomba(Gomboo_list);
-			
+
 			// KILL MARIO IF HE TOUCHES KOOPA
 			kill_mario_koopa(koopa_list);
-			
-			drawMario(cameraAABB, spriteAABB, gl, cameraAABB);
+
+			if (!gameOver)
+				drawMario(cameraAABB, spriteAABB, gl, cameraAABB);
 
 			if (!gameOver)
 				drawGomboo(gl, Gomboo_list, camera, cameraAABB);
@@ -667,60 +650,56 @@ public class JavaTemplate {
 
 			if (!gameOver)
 				drawEnemyBullet(gl, camera, Enemybullets, cameraAABB);
-			
+
 			if (!gameOver) {
 				coin_flip.updateSprite(deltaTimeMS);
 				coinFrame = coin_flip.getCurrentFrame();
 				drawCoin(gl, coin_list, cameraAABB, cameraAABB);
 			}
 
-			
-			
 			// COIN ANIMATION
 			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
 				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
-					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize()|| j * backgroundDef.getWidth() + i < 0)
+					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
 						continue;
 					int getTile = backgroundDef.getTile(i, j);
-					if(getTile == 4) {
+					if (getTile == 4) {
 						Tile getTile2 = ta[getTile];
 						int tileY = (tileSize[1] * j);
 						if (getTile2.isCollision() && spritePos[1] >= tileY) {
 							score += 50;
 							backgroundDef.setTile(i, j, 5);
-							drawBackground(startIndex, endIndex, startY, endY, tilearray, gl, cameraAABB);
 							int tileX = (tileSize[0] * i);
 							coin_flip.updateSprite(deltaTimeMS);
 							coinFrame = coin_flip.getCurrentFrame();
 							coin_sound.play();
-			AABBCamera coinAABB = new AABBCamera(tileX, tileY, spriteSize[0], spriteSize[1]);
-			if (AABBIntersect(cameraAABB, coinAABB) && !gameOver) {
-				glDrawSprite(gl, coinFrame, tileX - camera.getX(), (tileY - tileSize[1] - 30) - camera.getY(), spriteSize[0],
-						spriteSize[1]);
-			}
+							AABBCamera coinAABB = new AABBCamera(tileX, tileY, spriteSize[0], spriteSize[1]);
+							if (AABBIntersect(cameraAABB, coinAABB) && !gameOver) {
+								glDrawSprite(gl, coinFrame, tileX - camera.getX(),
+										(tileY - tileSize[1] - 30) - camera.getY(), spriteSize[0], spriteSize[1]);
+							}
 						}
 					}
 				}
 			}
-			
-			removeCoin(coin_list,coin_sound);
-			
-			float[] win = {400,300};
+
+			removeCoin(coin_list, coin_sound);
+
+			float[] win = { 400, 300 };
 			// WON THE GAME
 			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
 				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
-					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize() || j * backgroundDef.getWidth() + i < 0)
+					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
 						continue;
 					int getTile = backgroundDef.getTile(i, j);
-					if(getTile == 16 || (getTile == 17)) {
-						Tile getTile2 = ta[getTile];
-						if(getTile2.isCollision()) {
-							drawText(font, win, "YOU WON", gl);
-						}
+					if (getTile == 16 || (getTile == 17)) {
+						gameOver = true;
+						drawText(font, win, "YOU WON", gl);
+
 					}
 				}
 			}
-			
+
 			float[] position = { 50, 0 };
 			float[] position2 = { 75, font.lineHeight + 5 };
 			float[] score_position = { 300, 0 };
@@ -732,38 +711,45 @@ public class JavaTemplate {
 			drawText(font, score_position2, score_text, gl);
 
 			// MARIO GOES IN HOLES
-			if (spritePos[1] > camera.getY() + windowHeight) {
+			if (!hole) {
+				if (spritePos[1] > camera.getY() + windowHeight) {
 					gameOver = true;
-					playerdie=true;
-					
+					playerdie = true;
+					hole = true;
+				}
 			}
-		
+
 			// WHEN MARIO DIES
 			if (playerdie) {
 				float[] die_position = { 140, 300 };
 				drawText(font, die_position, "ENTER FOR NEW GAME", gl);
 				bgCLip.stop();
-				if(music) {
+				if (music) {
 					mari_die.play();
 					music = false;
 				}
+				spritePos[0] = SpritePosX;
+				spritePos[1] = SpritePosY;
+				hole = false;
 			}
-			
-			//RESTART GAME
+
+			// RESTART GAME
 			if (kbState[KeyEvent.VK_ENTER]) {
 				playerdie = false;
 				gameOver = false;
 				music = true;
-				
-				camera = new Camera(0,0);
-				spritePos= new float[] { SpritePosX, SpritePosY };
+
+				camera = new Camera(0, 0);
+				spritePos = new float[] { SpritePosX, SpritePosY };
 				Gomboo_list.clear(); // CLEAR GOMBOOS
 				koopa_list.clear(); // CLEAR KOOPA
 				bullets.clear(); // CLEAR BULLETS
 				Enemybullets.clear();
 				coin_list.clear();
-				score=0;
+				score = 0;
+				
 				Gomboo_list.add(new Enemy(400, 510, enemySize[0], enemySize[1], gombootex, 100));
+				Gomboo_list.add(new Enemy(700, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(1100, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(1600, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(2100, 510, enemySize[0], enemySize[1], gombootex, 100));
@@ -774,30 +760,38 @@ public class JavaTemplate {
 				Gomboo_list.add(new Enemy(4200, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(4500, 510, enemySize[0], enemySize[1], gombootex, 100));
 				Gomboo_list.add(new Enemy(5200, 510, enemySize[0], enemySize[1], gombootex, 100));
-				
+				Gomboo_list.add(new Enemy(1150, 510, enemySize[0], enemySize[1], gombootex, 100));
+				Gomboo_list.add(new Enemy(2140, 510, enemySize[0], enemySize[1], gombootex, 100));
+				Gomboo_list.add(new Enemy(3320, 510, enemySize[0], enemySize[1], gombootex, 100));
+				Gomboo_list.add(new Enemy(4220, 510, enemySize[0], enemySize[1], gombootex, 100));
+
 				koopa_list.add(new Enemy(480, 510, enemySize[0], enemySize[1], koopatex, 100));
 				koopa_list.add(new Enemy(800, 510, enemySize[0], enemySize[1], koopatex, 100));
 				koopa_list.add(new Enemy(1200, 510, enemySize[0], enemySize[1], koopatex, 100));
-				koopa_list.add(new Enemy(1700, 510, enemySize[0], enemySize[1], koopatex, 100));
+				koopa_list.add(new Enemy(1600, 510, enemySize[0], enemySize[1], koopatex, 100));
 				koopa_list.add(new Enemy(2200, 510, enemySize[0], enemySize[1], koopatex, 100));
 				koopa_list.add(new Enemy(2400, 510, enemySize[0], enemySize[1], koopatex, 100));
-		
-				coin_list.add(new Coin(300,535, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(600,535, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(680,420, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(920,535, coinSize[0], coinSize[1], coinTex));;
-				coin_list.add(new Coin(1110,380, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(1200,265, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(1240,265, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(1280,265, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(1320,265, coinSize[0], coinSize[1], coinTex));
-				coin_list.add( new Coin(1520,535, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(2280,380, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(2440,260, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(2480,260, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(2520,260, coinSize[0], coinSize[1], coinTex));
-				coin_list.add(new Coin(2440,260, coinSize[0], coinSize[1], coinTex));
+				koopa_list.add(new Enemy(3200, 510, enemySize[0], enemySize[1], koopatex, 100));
+				koopa_list.add(new Enemy(3600, 510, enemySize[0], enemySize[1], koopatex, 100));
+				koopa_list.add(new Enemy(4400, 510, enemySize[0], enemySize[1], koopatex, 100));
 				
+				
+				coin_list.add(new Coin(300, 535, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(600, 535, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(680, 420, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(920, 535, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(1110, 380, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(1200, 265, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(1240, 265, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(1280, 265, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(1320, 265, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(1520, 535, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(2280, 380, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(2440, 260, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(2480, 260, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(2520, 260, coinSize[0], coinSize[1], coinTex));
+				coin_list.add(new Coin(2440, 260, coinSize[0], coinSize[1], coinTex));
+
 				bgCLip.stop();
 				bgCLip = soundMain.playLooping();
 			}
@@ -805,53 +799,64 @@ public class JavaTemplate {
 	}
 
 	public static void removeCoin(ArrayList<Coin> coin_list, Sound coin_sound) {
-		for(int i=0; i<coin_list.size(); i++) {
+		for (int i = 0; i < coin_list.size(); i++) {
 			Coin e = coin_list.get(i);
-			if(spritePos[0] + spriteSize[0] >= e.getX() && ((spritePos[0] + spriteSize[0] + spriteSize[1]) >= (e.getX() + e.getHeight()))){
-				score+= 100;	
-				coin_sound.play();
-				coin_list.remove(i);
-						i--;
-					}
+			if (velocity > 0 && e.getY() < spritePos[1] + spriteSize[1]
+					&& spritePos[1] + spriteSize[1] < e.getY() + e.getHeight()) {
+				if (inBetween(e.getX(), spritePos[0], e.getX() + e.getWidth())
+						|| inBetween(e.getX(), spritePos[0] + spriteSize[0], e.getX() + e.getWidth())) {
+					
+					score += 100;
+					coin_sound.play();
+					coin_list.remove(i);
+					i--;
+				}
+
+			}
 		}
 	}
+
 	public static void kill_mario_goomba(ArrayList<Enemy> Gomboo_list) {
-		for(int i=0; i < Gomboo_list.size(); i++) {
+		for (int i = 0; i < Gomboo_list.size(); i++) {
 			Enemy e = Gomboo_list.get(i);
-			if(spritePos[0] + spriteSize[0] >= e.getX() && ((spritePos[0] + spriteSize[0] + spriteSize[1]) >= (e.getX() + e.getHeight())) 
+			if (spritePos[0] + spriteSize[0] >= e.getX()
+					&& ((spritePos[0] + spriteSize[0] + spriteSize[1]) >= (e.getX() + e.getHeight()))
 					&& spritePos[1] >= e.getY()) {
 				marioHealth -= 200;
 				playerdie = true;
 				gameOver = true;
 			}
-			
-			if(spritePos[0] < (e.getX() + e.getWidth()) && spritePos[0] > e.getX() && spritePos[1] >= e.getY()) {
+
+			if (spritePos[0] < (e.getX() + e.getWidth()) && spritePos[0] > e.getX() && spritePos[1] >= e.getY()) {
 				marioHealth -= 200;
 				playerdie = true;
 				gameOver = true;
 			}
 		}
 	}
+
 	public static void kill_mario_koopa(ArrayList<Enemy> koopa_list) {
-		for(int i=0; i < koopa_list.size(); i++) {
+		for (int i = 0; i < koopa_list.size(); i++) {
 			Enemy e = koopa_list.get(i);
-			if(spritePos[0] + spriteSize[0] >= e.getX() && ((spritePos[0] + spriteSize[0] + spriteSize[1]) >= (e.getX() + e.getHeight())) 
+			if (spritePos[0] + spriteSize[0] >= e.getX()
+					&& ((spritePos[0] + spriteSize[0] + spriteSize[1]) >= (e.getX() + e.getHeight()))
 					&& spritePos[1] >= e.getY()) {
 				marioHealth -= 200;
 				playerdie = true;
 				gameOver = true;
 			}
-			if(spritePos[0] < (e.getX() + e.getWidth()) && spritePos[0] > e.getX() && spritePos[1] >= e.getY()) {
+			if (spritePos[0] < (e.getX() + e.getWidth()) && spritePos[0] > e.getX() && spritePos[1] >= e.getY()) {
 				marioHealth -= 200;
 				playerdie = true;
 				gameOver = true;
 			}
 		}
 	}
-	public static void koopaAI(ArrayList<Enemy> koopa_list, long deltaTimeMS, float enemyspeed,
-			AnimationDef kooparight, AnimationDef koopaleft, AnimationDef koopaidle, Tile[] ta) {
-		
-		
+
+	public static void koopaAI(ArrayList<Enemy> koopa_list, long deltaTimeMS, float enemyspeed, AnimationDef kooparight,
+			AnimationDef koopaleft, AnimationDef koopaidle, Tile[] ta) {
+
+		boolean ans = false;
 		for (Enemy e : koopa_list) {
 			int action = e.Update(deltaTimeMS);
 			int upperSpriteIndexX = (int) (e.getX() / tileSize[0]);
@@ -863,7 +868,8 @@ public class JavaTemplate {
 				// FOLLOW THE MARIO
 				float x = e.getX();
 				// ENEMY IS ON THE LEFT
-				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))) {
+				if (e.getX() < spritePos[0] && e.getX() > 0
+						&& (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0])) && !ans) {
 					// MOVE RIGHT
 					x += deltaTimeMS * enemyspeed;
 					if (x < 0)
@@ -871,25 +877,27 @@ public class JavaTemplate {
 					e.setX(x);
 					kooparight.updateSprite(deltaTimeMS);
 					koopaFrame = kooparight.getCurrentFrame();
-					EnemyboxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX,
-							lowerSpriteIndexY, ta, e);
+					EnemyboxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY,
+							ta, e);
 				}
 				// ENEMY IS ON THE RIGHT
 				// MOVE LEFT
-				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
+				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))
+						&& !ans) {
 					x -= deltaTimeMS * enemyspeed;
 					if (x < 0)
 						x = 0;
 					e.setX(x);
 					koopaleft.updateSprite(deltaTimeMS);
 					koopaFrame = koopaleft.getCurrentFrame();
-					EnemyboxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX,
-							lowerSpriteIndexY, ta, e);
+					EnemyboxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY,
+							ta, e);
 				}
 
 			} else if (action == 2) {
 				// ENEMY IS ON THE LEFT
-				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
+				if (e.getX() < spritePos[0] && e.getX() > 0
+						&& (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0])) && !ans) {
 					// IF ENEMY TOO CLOSE, MOVE AWAY TO LEFT
 					if (spritePos[0] - e.getX() < 20) {
 						e.setX(e.getX() - deltaTimeMS * enemyspeed);
@@ -901,7 +909,8 @@ public class JavaTemplate {
 				}
 
 				// ENEMY IS ON RIGHT
-				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
+				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))
+						&& !ans) {
 					if (e.getX() - spritePos[0] < 20) {
 						// MOVE TO RIGHT
 						e.setX(e.getX() + deltaTimeMS * enemyspeed);
@@ -912,7 +921,8 @@ public class JavaTemplate {
 					}
 				}
 			} else {
-				if (e.getX() < spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0])) && e.getX() > 0) {
+				if (e.getX() < spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))
+						&& e.getX() > 0) {
 					e.setX(e.getX());
 				}
 				koopaidle.updateSprite(deltaTimeMS);
@@ -920,8 +930,10 @@ public class JavaTemplate {
 			}
 		}
 	}
+
 	public static void enemyAI(ArrayList<Enemy> Gomboo_list, long deltaTimeMS, float enemyspeed,
 			AnimationDef gombooright, AnimationDef gombooleft, AnimationDef gombooidle, Tile[] ta) {
+		boolean ans = false;
 		for (Enemy e : Gomboo_list) {
 			int action = e.Update(deltaTimeMS);
 
@@ -930,16 +942,29 @@ public class JavaTemplate {
 			int lowerSpriteIndexX = (int) ((e.getX() + e.getX() - 1) / tileSize[0]);
 			int lowerSpriteIndexY = (int) ((e.getY() + e.getY() - 1) / tileSize[1]);
 
-			//TODO: TO get the tile on which enemy is
-			// Check if the tile on right / left is a hole
-			// Don't Update the AI
-			
-			
+			// for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
+			// for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
+			// if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
+			// continue;
+			// if( (i * backgroundDef.getWidth() > 0) && (j * backgroundDef.getHeight()) >
+			// 0) {
+			// int getTile = backgroundDef.getTile(i, j+1);
+			// System.out.println(getTile);
+			// Tile getTile2 = ta[getTile];
+			// int tileX = 0;
+			// if(getTile == 1) {
+			// tileX = (tileSize[0] * i);
+			// }
+			// }
+			// }
+			// }
+
 			if (action == 1) {
 				// FOLLOW THE MARIO
 				float x = e.getX();
 				// ENEMY IS ON THE LEFT
-				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
+				if (e.getX() < spritePos[0] && e.getX() > 0
+						&& (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0])) && !ans) {
 					// MOVE RIGHT
 					x += deltaTimeMS * enemyspeed;
 					if (x < 0)
@@ -952,20 +977,23 @@ public class JavaTemplate {
 				}
 				// ENEMY IS ON THE RIGHT
 				// MOVE LEFT
-				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
+				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))
+						&& !ans) {
 					x -= deltaTimeMS * enemyspeed;
 					if (x < 0)
 						x = 0;
 					e.setX(x);
 					gombooleft.updateSprite(deltaTimeMS);
 					gombooFrame = gombooleft.getCurrentFrame();
+
 					EnemyboxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY,
 							ta, e);
 				}
 
 			} else if (action == 2) {
 				// ENEMY IS ON THE LEFT
-				if (e.getX() < spritePos[0] && e.getX() > 0 && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
+				if (e.getX() < spritePos[0] && e.getX() > 0
+						&& (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0])) && !ans) {
 					// IF ENEMY TOO CLOSE, MOVE AWAY TO LEFT
 					if (spritePos[0] - e.getX() < 20) {
 						e.setX(e.getX() - deltaTimeMS * enemyspeed);
@@ -977,7 +1005,8 @@ public class JavaTemplate {
 				}
 
 				// ENEMY IS ON RIGHT
-				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0]))) {
+				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))
+						&& !ans) {
 					if (e.getX() - spritePos[0] < 20) {
 						// MOVE TO RIGHT
 						e.setX(e.getX() + deltaTimeMS * enemyspeed);
@@ -988,7 +1017,8 @@ public class JavaTemplate {
 					}
 				}
 			} else {
-				if (e.getX() < spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0])  - enemySize[0])) && e.getX() > 0) {
+				if (e.getX() < spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))
+						&& e.getX() > 0) {
 					e.setX(e.getX());
 				}
 				gombooidle.updateSprite(deltaTimeMS);
@@ -1030,15 +1060,16 @@ public class JavaTemplate {
 	}
 
 	public static void drawCoin(GL2 gl, ArrayList<Coin> coin_list, Camera camera, AABBCamera cameraAABB) {
-			for (Coin c : coin_list) {
-				AABBCamera enemyAABB = new AABBCamera(c.getX(), c.getY(), c.getWidth(), c.getHeight());
-				if (AABBIntersect(cameraAABB, enemyAABB)) {
-					glDrawSprite(gl, coinFrame, c.getX() - camera.getX(), c.getY() - camera.getY(), coinSize[0],
-							coinSize[1]);
+		for (Coin c : coin_list) {
+			AABBCamera enemyAABB = new AABBCamera(c.getX(), c.getY(), c.getWidth(), c.getHeight());
+			if (AABBIntersect(cameraAABB, enemyAABB)) {
+				glDrawSprite(gl, coinFrame, c.getX() - camera.getX(), c.getY() - camera.getY(), coinSize[0],
+						coinSize[1]);
 
-				}
 			}
+		}
 	}
+
 	public static void drawGomboo(GL2 gl, ArrayList<Enemy> arrayGomboo, Camera camera, AABBCamera cameraAABB) {
 		for (Enemy e : arrayGomboo) {
 			AABBCamera enemyAABB = new AABBCamera(e.getX(), e.getY(), e.getWidth(), e.getHeight());
@@ -1217,11 +1248,11 @@ public class JavaTemplate {
 					tilearray[j * backgroundDef.getWidth() + i] = stair;
 				} else if (backgroundDef.getTile(i, j) == 15) {
 					tilearray[j * backgroundDef.getWidth() + i] = stair2;
-				}else if (backgroundDef.getTile(i, j) == 16) {
+				} else if (backgroundDef.getTile(i, j) == 16) {
 					tilearray[j * backgroundDef.getWidth() + i] = flag;
-				}else if (backgroundDef.getTile(i, j) == 17) {
+				} else if (backgroundDef.getTile(i, j) == 17) {
 					tilearray[j * backgroundDef.getWidth() + i] = flag2;
-				}else if (backgroundDef.getTile(i, j) == 18) {
+				} else if (backgroundDef.getTile(i, j) == 18) {
 					tilearray[j * backgroundDef.getWidth() + i] = coinTex;
 				}
 			}
@@ -1292,8 +1323,9 @@ public class JavaTemplate {
 		}
 	}
 
-	public static void EnemyboxCollisionLeft(int upperSpriteIndexX, int upperSpriteIndexY, int lowerSpriteIndexX,
+	public static boolean EnemyboxCollisionLeft(int upperSpriteIndexX, int upperSpriteIndexY, int lowerSpriteIndexX,
 			int lowerSpriteIndexY, Tile[] ta, Enemy e) {
+		boolean ans = false;
 		for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
 			for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
 				if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
@@ -1309,13 +1341,16 @@ public class JavaTemplate {
 						e.setX(e.getX() + (tileX + tileSize[0] - e.getX()));
 						spriteAABB = new AABBCamera(e.getX(), e.getY(), enemySize[0], enemySize[1]);
 					}
+					ans = true;
 				}
 			}
 		}
+		return ans;
 	}
 
-	public static void EnemyboxCollisionRight(int upperSpriteIndexX, int upperSpriteIndexY, int lowerSpriteIndexX,
+	public static boolean EnemyboxCollisionRight(int upperSpriteIndexX, int upperSpriteIndexY, int lowerSpriteIndexX,
 			int lowerSpriteIndexY, Tile[] ta, Enemy e) {
+		boolean ans = false;
 		for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
 			for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
 				if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
@@ -1331,9 +1366,11 @@ public class JavaTemplate {
 						e.setX(e.getX() + (tileX - (e.getX() + enemySize[0])));
 						spriteAABB = new AABBCamera(e.getX(), e.getY(), enemySize[0], enemySize[1]);
 					}
+					ans = true;
 				}
 			}
 		}
+		return ans;
 	}
 
 	public static void boxCollisionRight(int upperSpriteIndexX, int upperSpriteIndexY, int lowerSpriteIndexX,
