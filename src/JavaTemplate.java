@@ -674,20 +674,19 @@ public class JavaTemplate {
 
 			removeCoin(coin_list, coin_sound);
 
-			float[] win = { 400, 300 };
+			
+			float[] win = { 300, 300 };
+			float[] again = {300, 500};
 			// WON THE GAME
-			for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
-				for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
-					if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
-						continue;
-					int getTile = backgroundDef.getTile(i, j);
-					if (getTile == 16 || (getTile == 17)) {
-						gameOver = true;
-						drawText(font, win, "YOU WON", gl);
+			int k = (int)spritePos[0];
+			System.out.println(k);
+			if(k == 5290) {
+				gameOver = true;
+				drawText(font, win, "YOU MADE IT", gl);
+				drawText(font, again , "ENTER TO PLAY AGAIN", gl);
 
-					}
-				}
 			}
+			System.out.println(spritePos[0]);
 
 			float[] position = { 50, 0 };
 			float[] position2 = { 75, font.lineHeight + 5 };
