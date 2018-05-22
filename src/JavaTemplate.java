@@ -333,9 +333,6 @@ public class JavaTemplate {
 		koopa_list.add(new Enemy(1600, 510, enemySize[0], enemySize[1], koopatex, 100));
 		koopa_list.add(new Enemy(2200, 510, enemySize[0], enemySize[1], koopatex, 100));
 		koopa_list.add(new Enemy(2400, 510, enemySize[0], enemySize[1], koopatex, 100));
-		koopa_list.add(new Enemy(3200, 510, enemySize[0], enemySize[1], koopatex, 100));
-		koopa_list.add(new Enemy(3600, 510, enemySize[0], enemySize[1], koopatex, 100));
-		koopa_list.add(new Enemy(4400, 510, enemySize[0], enemySize[1], koopatex, 100));
 		
 
 		// Bullets ArrayList
@@ -761,9 +758,6 @@ public class JavaTemplate {
 				koopa_list.add(new Enemy(1600, 510, enemySize[0], enemySize[1], koopatex, 100));
 				koopa_list.add(new Enemy(2200, 510, enemySize[0], enemySize[1], koopatex, 100));
 				koopa_list.add(new Enemy(2400, 510, enemySize[0], enemySize[1], koopatex, 100));
-				koopa_list.add(new Enemy(3200, 510, enemySize[0], enemySize[1], koopatex, 100));
-				koopa_list.add(new Enemy(3600, 510, enemySize[0], enemySize[1], koopatex, 100));
-				koopa_list.add(new Enemy(4400, 510, enemySize[0], enemySize[1], koopatex, 100));
 				
 				
 				coin_list.add(new Coin(300, 535, coinSize[0], coinSize[1], coinTex));
@@ -867,9 +861,10 @@ public class JavaTemplate {
 					e.setX(x);
 					kooparight.updateSprite(deltaTimeMS);
 					koopaFrame = kooparight.getCurrentFrame();
-					EnemyboxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY,
-							ta, e);
+					
 				}
+				EnemyboxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY,
+						ta, e);
 				// ENEMY IS ON THE RIGHT
 				// MOVE LEFT
 				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))
@@ -880,9 +875,10 @@ public class JavaTemplate {
 					e.setX(x);
 					koopaleft.updateSprite(deltaTimeMS);
 					koopaFrame = koopaleft.getCurrentFrame();
-					EnemyboxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY,
-							ta, e);
+					
 				}
+				EnemyboxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY,
+						ta, e);
 
 			} else if (action == 2) {
 				// ENEMY IS ON THE LEFT
@@ -893,9 +889,10 @@ public class JavaTemplate {
 						e.setX(e.getX() - deltaTimeMS * enemyspeed);
 						koopaleft.updateSprite(deltaTimeMS);
 						koopaFrame = koopaleft.getCurrentFrame();
-						EnemyboxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX,
-								lowerSpriteIndexY, ta, e);
+						
 					}
+					EnemyboxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX,
+							lowerSpriteIndexY, ta, e);
 				}
 
 				// ENEMY IS ON RIGHT
@@ -906,9 +903,10 @@ public class JavaTemplate {
 						e.setX(e.getX() + deltaTimeMS * enemyspeed);
 						kooparight.updateSprite(deltaTimeMS);
 						koopaFrame = kooparight.getCurrentFrame();
-						EnemyboxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX,
-								lowerSpriteIndexY, ta, e);
+						
 					}
+					EnemyboxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX,
+							lowerSpriteIndexY, ta, e);
 				}
 			} else {
 				if (e.getX() < spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))
@@ -932,23 +930,6 @@ public class JavaTemplate {
 			int lowerSpriteIndexX = (int) ((e.getX() + e.getX() - 1) / tileSize[0]);
 			int lowerSpriteIndexY = (int) ((e.getY() + e.getY() - 1) / tileSize[1]);
 
-			// for (int i = upperSpriteIndexX; i <= lowerSpriteIndexX; i++) {
-			// for (int j = upperSpriteIndexY; j <= lowerSpriteIndexY; j++) {
-			// if (j * backgroundDef.getWidth() + i >= backgroundDef.getTileSize())
-			// continue;
-			// if( (i * backgroundDef.getWidth() > 0) && (j * backgroundDef.getHeight()) >
-			// 0) {
-			// int getTile = backgroundDef.getTile(i, j+1);
-			// System.out.println(getTile);
-			// Tile getTile2 = ta[getTile];
-			// int tileX = 0;
-			// if(getTile == 1) {
-			// tileX = (tileSize[0] * i);
-			// }
-			// }
-			// }
-			// }
-
 			if (action == 1) {
 				// FOLLOW THE MARIO
 				float x = e.getX();
@@ -962,9 +943,10 @@ public class JavaTemplate {
 					e.setX(x);
 					gombooright.updateSprite(deltaTimeMS);
 					gombooFrame = gombooright.getCurrentFrame();
-					EnemyboxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY,
-							ta, e);
+					
 				}
+				EnemyboxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY,
+						ta, e);
 				// ENEMY IS ON THE RIGHT
 				// MOVE LEFT
 				if (e.getX() > spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))
@@ -976,9 +958,10 @@ public class JavaTemplate {
 					gombooleft.updateSprite(deltaTimeMS);
 					gombooFrame = gombooleft.getCurrentFrame();
 
-					EnemyboxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY,
-							ta, e);
+					
 				}
+				EnemyboxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX, lowerSpriteIndexY,
+						ta, e);
 
 			} else if (action == 2) {
 				// ENEMY IS ON THE LEFT
@@ -989,9 +972,10 @@ public class JavaTemplate {
 						e.setX(e.getX() - deltaTimeMS * enemyspeed);
 						gombooleft.updateSprite(deltaTimeMS);
 						gombooFrame = gombooleft.getCurrentFrame();
-						EnemyboxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX,
-								lowerSpriteIndexY, ta, e);
+						
 					}
+					EnemyboxCollisionLeft(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX,
+							lowerSpriteIndexY, ta, e);
 				}
 
 				// ENEMY IS ON RIGHT
@@ -1002,9 +986,10 @@ public class JavaTemplate {
 						e.setX(e.getX() + deltaTimeMS * enemyspeed);
 						gombooright.updateSprite(deltaTimeMS);
 						gombooFrame = gombooright.getCurrentFrame();
-						EnemyboxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX,
-								lowerSpriteIndexY, ta, e);
+						
 					}
+					EnemyboxCollisionRight(upperSpriteIndexX, upperSpriteIndexY, lowerSpriteIndexX,
+							lowerSpriteIndexY, ta, e);
 				}
 			} else {
 				if (e.getX() < spritePos[0] && (e.getX() < ((backgroundDef.getWidth() * tileSize[0]) - enemySize[0]))
